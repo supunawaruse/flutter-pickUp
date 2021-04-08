@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:skype_clone/resources/firebaseRepository.dart';
+import 'package:skype_clone/screens/pageViews/chatListScreen.dart';
 import 'package:skype_clone/utils/universal_variables.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -31,11 +32,9 @@ class _HomeScreenState extends State<HomeScreen> {
       body: PageView(
         physics: NeverScrollableScrollPhysics(),
         children: [
-          Center(
-              child: Text(
-            'first page',
-            style: TextStyle(color: Colors.white),
-          )),
+          Container(
+            child: ChatListScreen(),
+          ),
           Center(
               child:
                   Text('second page', style: TextStyle(color: Colors.white))),
@@ -97,10 +96,6 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ),
     );
-  }
-
-  void signOut() {
-    _repository.signOut();
   }
 
   void onPageChange(int page) {

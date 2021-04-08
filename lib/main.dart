@@ -29,8 +29,10 @@ class _MyAppState extends State<MyApp> {
             future: _repository.getCurrentUser(),
             builder: (context, AsyncSnapshot<User> snapshot) {
               if (snapshot.hasData) {
+                print('hoto hoe');
                 return HomeScreen();
               } else {
+                print('supua');
                 return LoginScreen();
               }
             }));
