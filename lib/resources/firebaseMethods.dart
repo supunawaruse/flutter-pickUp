@@ -10,12 +10,14 @@ class FirebaseMethods {
   static final FirebaseFirestore firestore = FirebaseFirestore.instance;
   NormalUser normalUser = NormalUser();
 
+// Get current firebase Authenticated user
   Future<User> getCurrentUser() async {
     User currentUser;
     currentUser = await _auth.currentUser;
     return currentUser;
   }
 
+// SignIn function
   Future<UserCredential> signIn() async {
     GoogleSignInAccount _signInAccount = await _googleSignIn.signIn();
     GoogleSignInAuthentication _signInAuthentication =
@@ -30,6 +32,7 @@ class FirebaseMethods {
     return userCredential;
   }
 
+// Chekck whether there is an user with giving user details
   Future<bool> authenticateUser(User user) async {
     QuerySnapshot result = await firestore
         .collection('users')
@@ -40,6 +43,7 @@ class FirebaseMethods {
     return docs.length == 0 ? true : false;
   }
 
+// If user is not an existing user then add user data to firestore
   Future<void> addDataToDatabase(User currentUser) async {
     String username = Utils.getUserName(currentUser.email);
 
@@ -55,5 +59,13 @@ class FirebaseMethods {
         .collection('users')
         .doc(currentUser.uid)
         .set(normalUser.toMap(normalUser));
+  }
+
+  // SignOut from the application
+  Future<void> signOut() async {
+    await _googleSignIn.disconnect();
+    await _googleSignIn.signOut();
+
+    await _auth.signOut();
   }
 }
