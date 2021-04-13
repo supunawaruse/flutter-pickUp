@@ -5,6 +5,7 @@ import 'package:skype_clone/resources/firebaseRepository.dart';
 import 'package:skype_clone/screens/homeScreen.dart';
 import 'package:skype_clone/screens/loginScreen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:skype_clone/screens/searchScreen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -24,6 +25,10 @@ class _MyAppState extends State<MyApp> {
 
     return MaterialApp(
         debugShowCheckedModeBanner: false,
+        initialRoute: '/',
+        routes: {
+          '/search_screen': (context) => SearchScreen(),
+        },
         title: "Skype",
         home: FutureBuilder(
             future: _repository.getCurrentUser(),
