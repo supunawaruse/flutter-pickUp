@@ -68,4 +68,18 @@ class FirebaseMethods {
 
     await _auth.signOut();
   }
+
+  //get all firebase users
+  Future<List<NormalUser>> fetchAllUsers(User currentUser) async {
+    List<NormalUser> userList = [];
+    QuerySnapshot querySnapshot = await firestore.collection('users').get();
+
+    for (var i = 0; i < querySnapshot.docs.length; i++) {
+      if (querySnapshot.docs[i].id != currentUser.uid) {
+        userList.add(NormalUser.fromMap(querySnapshot.docs[i].data()));
+      }
+    }
+
+    return userList;
+  }
 }
