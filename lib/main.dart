@@ -26,6 +26,7 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
         initialRoute: '/',
+        theme: ThemeData(brightness: Brightness.dark),
         routes: {
           '/search_screen': (context) => SearchScreen(),
         },
