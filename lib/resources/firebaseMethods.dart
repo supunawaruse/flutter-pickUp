@@ -1,7 +1,13 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:skype_clone/models/message.dart';
 import 'package:skype_clone/models/user.dart';
+import 'package:skype_clone/provider/image_upload_provider.dart';
 import 'package:skype_clone/utils/utilities.dart';
 
 class FirebaseMethods {
@@ -9,6 +15,8 @@ class FirebaseMethods {
   GoogleSignIn _googleSignIn = GoogleSignIn();
   static final FirebaseFirestore firestore = FirebaseFirestore.instance;
   NormalUser normalUser = NormalUser();
+
+  Reference _storageReference;
 
 // Get current firebase Authenticated user
   Future<User> getCurrentUser() async {
@@ -81,5 +89,86 @@ class FirebaseMethods {
     }
 
     return userList;
+  }
+
+  //add message to database
+  //
+  Future<void> addMessageToDb(
+      Message message, NormalUser sender, NormalUser receiver) async {
+    var map = message.toMap();
+
+    await firestore
+        .collection('messages')
+        .doc(message.senderId)
+        .collection(message.receiverId)
+        .add(map);
+
+    await firestore
+        .collection('messages')
+        .doc(message.receiverId)
+        .collection(message.senderId)
+        .add(map);
+  }
+
+  void uploadImage(File image, String receiverId, String senderId,
+      ImageUploadProvider imageUploadProvider) async {
+    imageUploadProvider.setToLoading();
+    String url = await uploadImageToStorage(image);
+    print(url);
+    imageUploadProvider.setToIdle();
+    setImageMsg(url, receiverId, senderId);
+  }
+
+  Future<String> uploadImageToStorage(File image) async {
+    _storageReference = FirebaseStorage.instance
+        .ref()
+        .child('${DateTime.now().millisecondsSinceEpoch}');
+
+    UploadTask _uploadTask = _storageReference.putFile(image);
+
+    // var url;
+    // _uploadTask.whenComplete(() async {
+    //   try {
+    //     url = await _uploadTask.snapshot.ref.getDownloadURL();
+    //     print(await _uploadTask.snapshot.ref.getDownloadURL());
+    //   } catch (onError) {
+    //     print("Error");
+    //   }
+    // });
+
+    // return url;
+
+    String url;
+    await _uploadTask.whenComplete(() async {
+      url = await _uploadTask.snapshot.ref.getDownloadURL();
+    });
+
+    return url;
+  }
+
+  void setImageMsg(String url, String receiverId, String senderId) async {
+    Message _message;
+
+    _message = Message.imageMessage(
+        message: "Image",
+        receiverId: receiverId,
+        senderId: senderId,
+        photoUrl: url,
+        type: "image",
+        timestamp: Timestamp.now());
+
+    var map = _message.toImageMap();
+
+    await firestore
+        .collection('messages')
+        .doc(_message.senderId)
+        .collection(_message.receiverId)
+        .add(map);
+
+    await firestore
+        .collection('messages')
+        .doc(_message.receiverId)
+        .collection(_message.senderId)
+        .add(map);
   }
 }
