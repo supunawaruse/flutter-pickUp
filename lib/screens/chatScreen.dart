@@ -1,10 +1,19 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:emoji_picker/emoji_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
+import 'package:skype_clone/enum/view_state.dart';
 import 'package:skype_clone/models/message.dart';
 import 'package:skype_clone/models/user.dart';
+import 'package:skype_clone/provider/image_upload_provider.dart';
 import 'package:skype_clone/resources/firebaseRepository.dart';
+import 'package:skype_clone/screens/cachedImage.dart';
 import 'package:skype_clone/utils/universal_variables.dart';
+import 'package:skype_clone/utils/utilities.dart';
 import 'package:skype_clone/widgets/appbar.dart';
 import 'package:skype_clone/widgets/customTile.dart';
 
@@ -25,6 +34,11 @@ class _ChatScreenState extends State<ChatScreen> {
   String _currentUserId;
 
   FirebaseRepository _repository = FirebaseRepository();
+  FocusNode textNode = FocusNode();
+
+  bool showEmojiPicker = false;
+
+  ImageUploadProvider imageUploadProvider;
 
   @override
   void initState() {
@@ -41,8 +55,25 @@ class _ChatScreenState extends State<ChatScreen> {
     });
   }
 
+  showKeyboard() => textNode.requestFocus();
+  hideKeyboard() => textNode.unfocus();
+
+  hideEmojiContainer() {
+    setState(() {
+      showEmojiPicker = false;
+    });
+  }
+
+  showEmojiContainer() {
+    setState(() {
+      showEmojiPicker = true;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    imageUploadProvider = Provider.of<ImageUploadProvider>(context);
+
     return Container(
       child: Scaffold(
         backgroundColor: UniversalVariables.blackColor,
@@ -52,10 +83,33 @@ class _ChatScreenState extends State<ChatScreen> {
             Flexible(
               child: messageList(),
             ),
+            imageUploadProvider.getViewState == ViewState.LOADING
+                ? Container(
+                    margin: EdgeInsets.only(right: 15),
+                    alignment: Alignment.centerRight,
+                    child: CircularProgressIndicator())
+                : Container(),
             chatControls(),
+            showEmojiPicker ? Container(child: emojiContainer()) : Container()
           ],
         ),
       ),
+    );
+  }
+
+  emojiContainer() {
+    return EmojiPicker(
+      bgColor: UniversalVariables.separatorColor,
+      indicatorColor: UniversalVariables.blueColor,
+      rows: 3,
+      columns: 7,
+      onEmojiSelected: (emoji, category) {
+        setState(() {
+          isWriting = true;
+        });
+
+        textFieldController.text = textFieldController.text + emoji.emoji;
+      },
     );
   }
 
@@ -118,10 +172,14 @@ class _ChatScreenState extends State<ChatScreen> {
   }
 
   getMessage(Message message) {
-    return Text(
-      message.message,
-      style: TextStyle(color: Colors.white, fontSize: 16.0),
-    );
+    return message.type != 'image'
+        ? Text(
+            message.message,
+            style: TextStyle(color: Colors.white, fontSize: 16.0),
+          )
+        : message.photoUrl != null
+            ? CachedImage(url: message.photoUrl)
+            : Text('Image url is null');
   }
 
   Widget receiverLayout(Message message) {
@@ -239,6 +297,18 @@ class _ChatScreenState extends State<ChatScreen> {
       _repository.addMessageToDb(_message, sender, widget.reciever);
     }
 
+    pickImage({@required ImageSource source}) async {
+      File selectedImage = await Utils.pickImage(source: source);
+
+      if (selectedImage != null) {
+        _repository.uploadImage(
+            image: selectedImage,
+            receiverId: widget.reciever.uid,
+            senderId: _currentUserId,
+            imageUploadProvider: imageUploadProvider);
+      }
+    }
+
     return Container(
       padding: EdgeInsets.all(10),
       child: Row(
@@ -258,36 +328,52 @@ class _ChatScreenState extends State<ChatScreen> {
             width: 5,
           ),
           Expanded(
-            child: TextField(
-              controller: textFieldController,
-              style: TextStyle(
-                color: Colors.white,
-              ),
-              onChanged: (val) {
-                (val.length > 0 && val.trim() != "")
-                    ? setWritingTo(true)
-                    : setWritingTo(false);
-              },
-              decoration: InputDecoration(
-                hintText: "Type a message",
-                hintStyle: TextStyle(
-                  color: UniversalVariables.greyColor,
+            child: Stack(children: [
+              TextField(
+                onTap: () => hideEmojiContainer(),
+                focusNode: textNode,
+                controller: textFieldController,
+                style: TextStyle(
+                  color: Colors.white,
                 ),
-                border: OutlineInputBorder(
-                    borderRadius: const BorderRadius.all(
-                      const Radius.circular(50.0),
-                    ),
-                    borderSide: BorderSide.none),
-                contentPadding:
-                    EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-                filled: true,
-                fillColor: UniversalVariables.separatorColor,
-                suffixIcon: GestureDetector(
-                  onTap: () {},
-                  child: Icon(Icons.face),
+                onChanged: (val) {
+                  (val.length > 0 && val.trim() != "")
+                      ? setWritingTo(true)
+                      : setWritingTo(false);
+                },
+                decoration: InputDecoration(
+                  hintText: "Type a message",
+                  hintStyle: TextStyle(
+                    color: UniversalVariables.greyColor,
+                  ),
+                  border: OutlineInputBorder(
+                      borderRadius: const BorderRadius.all(
+                        const Radius.circular(50.0),
+                      ),
+                      borderSide: BorderSide.none),
+                  contentPadding:
+                      EdgeInsets.symmetric(horizontal: 40, vertical: 5),
+                  filled: true,
+                  fillColor: UniversalVariables.separatorColor,
                 ),
               ),
-            ),
+              IconButton(
+                splashColor: Colors.transparent,
+                highlightColor: Colors.transparent,
+                onPressed: () {
+                  if (!showEmojiPicker) {
+                    hideKeyboard();
+                    showEmojiContainer();
+                  } else {
+                    showKeyboard();
+                    hideEmojiContainer();
+                  }
+                },
+                icon: Icon(
+                  Icons.face,
+                ),
+              )
+            ]),
           ),
           isWriting
               ? Container()
@@ -295,7 +381,11 @@ class _ChatScreenState extends State<ChatScreen> {
                   padding: EdgeInsets.symmetric(horizontal: 10),
                   child: Icon(Icons.record_voice_over),
                 ),
-          isWriting ? Container() : Icon(Icons.camera_alt),
+          isWriting
+              ? Container()
+              : GestureDetector(
+                  onTap: () => pickImage(source: ImageSource.camera),
+                  child: Icon(Icons.camera_alt)),
           isWriting
               ? Container(
                   margin: EdgeInsets.only(left: 10),
