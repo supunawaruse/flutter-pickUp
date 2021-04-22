@@ -13,6 +13,7 @@ import 'package:skype_clone/provider/image_upload_provider.dart';
 import 'package:skype_clone/resources/firebaseRepository.dart';
 import 'package:skype_clone/screens/cachedImage.dart';
 import 'package:skype_clone/utils/call_utilities.dart';
+import 'package:skype_clone/utils/permissions.dart';
 import 'package:skype_clone/utils/universal_variables.dart';
 import 'package:skype_clone/utils/utilities.dart';
 import 'package:skype_clone/widgets/appbar.dart';
@@ -179,7 +180,7 @@ class _ChatScreenState extends State<ChatScreen> {
             style: TextStyle(color: Colors.white, fontSize: 16.0),
           )
         : message.photoUrl != null
-            ? CachedImage(url: message.photoUrl)
+            ? CachedImage(message.photoUrl, height: 250, width: 250, radius: 10)
             : Text('Image url is null');
   }
 
@@ -419,8 +420,11 @@ class _ChatScreenState extends State<ChatScreen> {
       actions: [
         IconButton(
             icon: Icon(Icons.video_call),
-            onPressed: () => CallUtils.dial(
-                from: sender, to: widget.reciever, context: context)),
+            onPressed: () async =>
+                await Permissions.cameraAndMicrophonePermissionsGranted()
+                    ? CallUtils.dial(
+                        from: sender, to: widget.reciever, context: context)
+                    : {}),
         IconButton(
           icon: Icon(Icons.phone),
           onPressed: () {},

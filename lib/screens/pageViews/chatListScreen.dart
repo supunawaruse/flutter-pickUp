@@ -46,7 +46,7 @@ class _ChatListScreenState extends State<ChatListScreen> {
                 Icons.more_vert,
                 color: Colors.white,
               ),
-              onPressed: () {}),
+              onPressed: () => {_repository.signOut()}),
         ],
         leading: IconButton(
             icon: Icon(Icons.notifications, color: Colors.white),

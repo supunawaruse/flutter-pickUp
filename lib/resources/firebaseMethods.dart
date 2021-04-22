@@ -171,4 +171,12 @@ class FirebaseMethods {
         .collection(_message.senderId)
         .add(map);
   }
+
+  Future<NormalUser> getUserDetails() async {
+    User currentUser = await getCurrentUser();
+    DocumentSnapshot documentSnapshot =
+        await firestore.collection('users').doc(currentUser.uid).get();
+
+    return NormalUser.fromMap(documentSnapshot.data());
+  }
 }
