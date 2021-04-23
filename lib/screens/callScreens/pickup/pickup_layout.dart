@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:skype_clone/models/call.dart';
 import 'package:skype_clone/provider/user_provider.dart';
 import 'package:skype_clone/resources/call_methods.dart';
+import 'package:skype_clone/screens/callScreens/pickup/voice_pickup_screen.dart';
 import 'package:skype_clone/screens/callscreens/pickup/pickup_screen.dart';
 
 class PickupLayout extends StatelessWidget {
@@ -26,7 +27,11 @@ class PickupLayout extends StatelessWidget {
                 Call call = Call.fromMap(snapshot.data.data());
 
                 if (!call.hasDialled) {
-                  return PickupScreen(call: call);
+                  if (call.type == "video") {
+                    return PickupScreen(call: call);
+                  } else {
+                    return VoicePickupScreen(call: call);
+                  }
                 }
               }
               return scaffold;

@@ -3,14 +3,14 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:skype_clone/models/call.dart';
 import 'package:skype_clone/resources/call_methods.dart';
 import 'package:skype_clone/screens/cachedImage.dart';
-import 'package:skype_clone/screens/callScreens/call_screen.dart';
+import 'package:skype_clone/screens/callScreens/voiceCall_screen.dart';
 import 'package:skype_clone/utils/permissions.dart';
 
-class PickupScreen extends StatelessWidget {
+class VoicePickupScreen extends StatelessWidget {
   final Call call;
   final CallMethods callMethods = CallMethods();
 
-  PickupScreen({
+  VoicePickupScreen({
     @required this.call,
   });
 
@@ -33,7 +33,7 @@ class PickupScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text(
-              "Incoming...",
+              "Voice Call Incoming...",
               style: TextStyle(
                 fontSize: 30,
               ),
@@ -71,11 +71,11 @@ class PickupScreen extends StatelessWidget {
                                   context,
                                   MaterialPageRoute(
                                     builder: (context) =>
-                                        CallScreen(call: call),
+                                        VoiceCallScreen(call: call),
                                   ),
                                 )
                               : {}
-                        })
+                        }),
               ],
             ),
           ],

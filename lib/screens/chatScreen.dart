@@ -5,6 +5,7 @@ import 'package:emoji_picker/emoji_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:skype_clone/enum/view_state.dart';
 import 'package:skype_clone/models/message.dart';
@@ -70,6 +71,15 @@ class _ChatScreenState extends State<ChatScreen> {
     setState(() {
       showEmojiPicker = true;
     });
+  }
+
+  Future<bool> _handleCameraAndMic(Permission permission) async {
+    final status = await permission.request();
+    if (status.isGranted) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   @override
@@ -420,15 +430,22 @@ class _ChatScreenState extends State<ChatScreen> {
       actions: [
         IconButton(
             icon: Icon(Icons.video_call),
-            onPressed: () async =>
-                await Permissions.cameraAndMicrophonePermissionsGranted()
-                    ? CallUtils.dial(
-                        from: sender, to: widget.reciever, context: context)
-                    : {}),
+            onPressed: () async => {
+                  (await _handleCameraAndMic(Permission.camera) &&
+                          await _handleCameraAndMic(Permission.microphone))
+                      ? CallUtils.dial(
+                          from: sender, to: widget.reciever, context: context)
+                      : {}
+                }),
         IconButton(
-          icon: Icon(Icons.phone),
-          onPressed: () {},
-        ),
+            icon: Icon(Icons.phone),
+            onPressed: () async => {
+                  (await _handleCameraAndMic(Permission.camera) &&
+                          await _handleCameraAndMic(Permission.microphone))
+                      ? CallUtils.voiceDial(
+                          from: sender, to: widget.reciever, context: context)
+                      : {}
+                }),
       ],
     );
   }

@@ -7,7 +7,7 @@ packages:
       name: agora_rtc_engine
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.0.15"
+    version: "3.3.3"
   archive:
     dependency: transitive
     description:
@@ -324,6 +324,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.6.3"
+  json_annotation:
+    dependency: transitive
+    description:
+      name: json_annotation
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "3.1.1"
   matcher:
     dependency: transitive
     description:
@@ -405,6 +412,13 @@ packages:
     dependency: "direct main"
     description:
       name: permission_handler
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "7.0.0"
+  permission_handler_platform_interface:
+    dependency: transitive
+    description:
+      name: permission_handler_platform_interface
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.3.0"
