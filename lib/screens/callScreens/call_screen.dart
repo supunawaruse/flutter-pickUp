@@ -14,7 +14,8 @@ import 'package:skype_clone/resources/call_methods.dart';
 
 class CallScreen extends StatefulWidget {
   final Call call;
-  // final ClientRole role;
+
+  final ClientRole role = ClientRole.Broadcaster;
 
   CallScreen({@required this.call});
 
@@ -40,8 +41,8 @@ class _CallScreenState extends State<CallScreen> {
     // destroy sdk
     _engine.leaveChannel();
     _engine.destroy();
-    callStreamSubscription.cancel();
     super.dispose();
+    callStreamSubscription.cancel();
   }
 
   @override
@@ -49,6 +50,27 @@ class _CallScreenState extends State<CallScreen> {
     super.initState();
     addPostFrameCallback();
     initializeAgora();
+  }
+
+  addPostFrameCallback() {
+    SchedulerBinding.instance.addPostFrameCallback((_) {
+      userProvider = Provider.of<UserProvider>(context, listen: false);
+
+      callStreamSubscription = callMethods
+          .callStream(uid: userProvider.getUser.uid)
+          .listen((DocumentSnapshot ds) {
+        // defining the logic
+        switch (ds.data()) {
+          case null:
+            // snapshot is null which means that call is hanged and documents are deleted
+            Navigator.pop(context);
+            break;
+
+          default:
+            break;
+        }
+      });
+    });
   }
 
   Future<void> initializeAgora() async {
@@ -65,32 +87,14 @@ class _CallScreenState extends State<CallScreen> {
     await _initAgoraRtcEngine();
     _addAgoraEventHandlers();
     await _engine.enableWebSdkInteroperability(true);
-
     VideoEncoderConfiguration configuration = VideoEncoderConfiguration();
     configuration.dimensions = VideoDimensions(1920, 1080);
     await _engine.setVideoEncoderConfiguration(configuration);
-    await _engine.joinChannel(null, widget.call.channelId, null, 0);
-  }
-
-  addPostFrameCallback() {
-    SchedulerBinding.instance.addPostFrameCallback((_) {
-      userProvider = Provider.of<UserProvider>(context, listen: false);
-
-      callStreamSubscription = callMethods
-          .callStream(uid: userProvider.getUser.uid)
-          .listen((DocumentSnapshot ds) {
-        // defining the logic
-        switch (ds.data) {
-          case null:
-            // snapshot is null which means that call is hanged and documents are deleted
-            Navigator.pop(context);
-            break;
-
-          default:
-            break;
-        }
-      });
-    });
+    await _engine.joinChannel(
+        '00664b69ba11ab340679b6bcd0a3cb3823eIACqYw82rWKrYuXcI+ltAwf2ow8nLHIMVFDAZan+U1J9zwx+f9gAAAAAEACHBVD5diGEYAEAAQB2IYRg',
+        'test',
+        null,
+        0);
   }
 
   /// Create agora sdk instance and initialize
@@ -98,7 +102,7 @@ class _CallScreenState extends State<CallScreen> {
     _engine = await RtcEngine.create(APP_ID);
     await _engine.enableVideo();
     await _engine.setChannelProfile(ChannelProfile.LiveBroadcasting);
-    // await _engine.setClientRole(widget.role);
+    await _engine.setClientRole(widget.role);
   }
 
   /// Add agora event handlers
@@ -139,13 +143,16 @@ class _CallScreenState extends State<CallScreen> {
     }));
   }
 
+  // void _onCallEnd() {
+  //   Navigator.pop(context);
+  // }
+
   /// Helper function to get list of native views
   List<Widget> _getRenderViews() {
     final List<StatefulWidget> list = [];
-    // if (widget.role == ClientRole.Broadcaster) {
-    //   list.add(RtcLocalView.SurfaceView());
-    // }
-    list.add(RtcLocalView.SurfaceView());
+    if (widget.role == ClientRole.Broadcaster) {
+      list.add(RtcLocalView.SurfaceView());
+    }
     _users.forEach((int uid) => list.add(RtcRemoteView.SurfaceView(uid: uid)));
     return list;
   }
@@ -204,54 +211,54 @@ class _CallScreenState extends State<CallScreen> {
   }
 
   /// Info panel to show logs
-  // Widget _panel() {
-  //   return Container(
-  //     padding: const EdgeInsets.symmetric(vertical: 48),
-  //     alignment: Alignment.bottomCenter,
-  //     child: FractionallySizedBox(
-  //       heightFactor: 0.5,
-  //       child: Container(
-  //         padding: const EdgeInsets.symmetric(vertical: 48),
-  //         child: ListView.builder(
-  //           reverse: true,
-  //           itemCount: _infoStrings.length,
-  //           itemBuilder: (BuildContext context, int index) {
-  //             if (_infoStrings.isEmpty) {
-  //               return null;
-  //             }
-  //             return Padding(
-  //               padding: const EdgeInsets.symmetric(
-  //                 vertical: 3,
-  //                 horizontal: 10,
-  //               ),
-  //               child: Row(
-  //                 mainAxisSize: MainAxisSize.min,
-  //                 children: [
-  //                   Flexible(
-  //                     child: Container(
-  //                       padding: const EdgeInsets.symmetric(
-  //                         vertical: 2,
-  //                         horizontal: 5,
-  //                       ),
-  //                       decoration: BoxDecoration(
-  //                         color: Colors.yellowAccent,
-  //                         borderRadius: BorderRadius.circular(5),
-  //                       ),
-  //                       child: Text(
-  //                         _infoStrings[index],
-  //                         style: TextStyle(color: Colors.blueGrey),
-  //                       ),
-  //                     ),
-  //                   )
-  //                 ],
-  //               ),
-  //             );
-  //           },
-  //         ),
-  //       ),
-  //     ),
-  //   );
-  // }
+  Widget _panel() {
+    return Container(
+      padding: const EdgeInsets.symmetric(vertical: 48),
+      alignment: Alignment.bottomCenter,
+      child: FractionallySizedBox(
+        heightFactor: 0.5,
+        child: Container(
+          padding: const EdgeInsets.symmetric(vertical: 48),
+          child: ListView.builder(
+            reverse: true,
+            itemCount: _infoStrings.length,
+            itemBuilder: (BuildContext context, int index) {
+              if (_infoStrings.isEmpty) {
+                return null;
+              }
+              return Padding(
+                padding: const EdgeInsets.symmetric(
+                  vertical: 3,
+                  horizontal: 10,
+                ),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Flexible(
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 2,
+                          horizontal: 5,
+                        ),
+                        decoration: BoxDecoration(
+                          color: Colors.yellowAccent,
+                          borderRadius: BorderRadius.circular(5),
+                        ),
+                        child: Text(
+                          _infoStrings[index],
+                          style: TextStyle(color: Colors.blueGrey),
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              );
+            },
+          ),
+        ),
+      ),
+    );
+  }
 
   void _onToggleMute() {
     setState(() {
@@ -324,7 +331,7 @@ class _CallScreenState extends State<CallScreen> {
         child: Stack(
           children: <Widget>[
             _viewRows(),
-            // _panel(),
+            _panel(),
             _toolbar(),
           ],
         ),

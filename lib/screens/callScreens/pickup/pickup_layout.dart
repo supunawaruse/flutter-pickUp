@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
 import 'package:provider/provider.dart';
 import 'package:skype_clone/models/call.dart';
 import 'package:skype_clone/provider/user_provider.dart';
@@ -27,14 +28,16 @@ class PickupLayout extends StatelessWidget {
                 Call call = Call.fromMap(snapshot.data.data());
 
                 if (!call.hasDialled) {
-                  if (call.type == "video") {
-                    return PickupScreen(call: call);
-                  } else {
+                  if (call.type == "voice") {
                     return VoicePickupScreen(call: call);
+                  } else {
+                    return PickupScreen(call: call);
                   }
                 }
+              } else {
+                FlutterRingtonePlayer.stop();
+                return scaffold;
               }
-              return scaffold;
             },
           )
         : Scaffold(

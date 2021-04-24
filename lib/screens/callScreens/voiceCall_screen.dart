@@ -33,8 +33,8 @@ class _VoiceCallScreenState extends State<VoiceCallScreen> {
 
   @override
   void dispose() {
-    callStreamSubscription.cancel();
     super.dispose();
+    callStreamSubscription.cancel();
   }
 
   @override
@@ -46,11 +46,6 @@ class _VoiceCallScreenState extends State<VoiceCallScreen> {
 
   // Initialize the app
   Future<void> initPlatformState() async {
-    // Get microphone permission
-    // if(await Permission.microphone.request().isGranted){
-
-    // }
-
     // Create RTC client instance
     RtcEngineConfig config = RtcEngineConfig(APP_ID);
     var engine = await RtcEngine.createWithConfig(config);
@@ -67,13 +62,18 @@ class _VoiceCallScreenState extends State<VoiceCallScreen> {
         _remoteUid = uid;
       });
     }, userOffline: (int uid, UserOfflineReason reason) {
+      callMethods.endCall(call: widget.call);
       print('userOffline ${uid}');
       setState(() {
         _remoteUid = null;
       });
     }));
     // Join channel 123
-    await engine.joinChannel(null, widget.call.channelId, null, 0);
+    await engine.joinChannel(
+        '00664b69ba11ab340679b6bcd0a3cb3823eIACqYw82rWKrYuXcI+ltAwf2ow8nLHIMVFDAZan+U1J9zwx+f9gAAAAAEACHBVD5diGEYAEAAQB2IYRg',
+        'test',
+        null,
+        0);
   }
 
   addPostFrameCallback() {
@@ -84,7 +84,7 @@ class _VoiceCallScreenState extends State<VoiceCallScreen> {
           .callStream(uid: userProvider.getUser.uid)
           .listen((DocumentSnapshot ds) {
         // defining the logic
-        switch (ds.data) {
+        switch (ds.data()) {
           case null:
             // snapshot is null which means that call is hanged and documents are deleted
             Navigator.pop(context);

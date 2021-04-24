@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -6,6 +7,7 @@ import 'package:skype_clone/provider/user_provider.dart';
 import 'package:skype_clone/screens/callscreens/pickup/pickup_layout.dart';
 import 'package:skype_clone/screens/pageViews/chatListScreen.dart';
 import 'package:skype_clone/utils/universal_variables.dart';
+import 'package:skype_clone/widgets/customTile.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -13,9 +15,11 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  static final FirebaseFirestore firestore = FirebaseFirestore.instance;
   PageController pageController;
   int _page = 0;
 
+  List contacts;
   UserProvider userProvider;
 
   @override
@@ -28,6 +32,12 @@ class _HomeScreenState extends State<HomeScreen> {
     });
 
     pageController = PageController();
+
+    fetchAllContact().then((List list) {
+      setState(() {
+        contacts = list;
+      });
+    });
   }
 
   void onPageChanged(int page) {
@@ -40,6 +50,20 @@ class _HomeScreenState extends State<HomeScreen> {
     pageController.jumpToPage(page);
   }
 
+  Future<List> fetchAllContact() async {
+    List contactList = [];
+    DocumentSnapshot documentSnapshot =
+        await firestore.collection('my_contact').doc('details').get();
+
+    // for (var i = 0; i < querySnapshot.docs.length; i++) {
+    //   if (querySnapshot.docs[i].id != currentUser.uid) {
+    //     userList.add(NormalUser.fromMap(querySnapshot.docs[i].data()));
+    //   }
+    // }
+    contactList = documentSnapshot.data()['contacts'];
+    return contactList;
+  }
+
   @override
   Widget build(BuildContext context) {
     double _labelFontSize = 10;
@@ -49,9 +73,7 @@ class _HomeScreenState extends State<HomeScreen> {
         backgroundColor: UniversalVariables.blackColor,
         body: PageView(
           children: <Widget>[
-            Container(
-              child: ChatListScreen(),
-            ),
+            Container(child: ChatListScreen()),
             Center(
               child: Text(
                 "Call Logs",

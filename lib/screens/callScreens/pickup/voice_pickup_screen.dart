@@ -39,8 +39,8 @@ class VoicePickupScreen extends StatelessWidget {
               ),
             ),
             SizedBox(height: 10),
-            CachedImage(call.callerPic, isRound: true, radius: 180),
-            SizedBox(height: 15),
+            // CachedImage(call.callerPic, isRound: true, radius: 180),
+            // SizedBox(height: 15),
             Text(
               call.callerName,
               style: TextStyle(
@@ -48,7 +48,7 @@ class VoicePickupScreen extends StatelessWidget {
                 fontSize: 20,
               ),
             ),
-            SizedBox(height: 75),
+            SizedBox(height: 10),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[

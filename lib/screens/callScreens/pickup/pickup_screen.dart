@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:skype_clone/models/call.dart';
 import 'package:skype_clone/resources/call_methods.dart';
@@ -6,13 +7,19 @@ import 'package:skype_clone/screens/cachedImage.dart';
 import 'package:skype_clone/screens/callScreens/call_screen.dart';
 import 'package:skype_clone/utils/permissions.dart';
 
-class PickupScreen extends StatelessWidget {
+class PickupScreen extends StatefulWidget {
   final Call call;
-  final CallMethods callMethods = CallMethods();
 
   PickupScreen({
     @required this.call,
   });
+
+  @override
+  _PickupScreenState createState() => _PickupScreenState();
+}
+
+class _PickupScreenState extends State<PickupScreen> {
+  final CallMethods callMethods = CallMethods();
 
   Future<bool> _handleCameraAndMic(Permission permission) async {
     final status = await permission.request();
@@ -22,6 +29,20 @@ class PickupScreen extends StatelessWidget {
       return false;
     }
   }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    FlutterRingtonePlayer.playRingtone();
+  }
+
+  // @override
+  // void dispose() {
+  //   // TODO: implement dispose
+  //   super.dispose();
+  //   FlutterRingtonePlayer.stop();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -39,10 +60,10 @@ class PickupScreen extends StatelessWidget {
               ),
             ),
             SizedBox(height: 10),
-            CachedImage(call.callerPic, isRound: true, radius: 180),
+            CachedImage(widget.call.callerPic, isRound: true, radius: 180),
             SizedBox(height: 15),
             Text(
-              call.callerName,
+              widget.call.callerName,
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 20,
@@ -56,7 +77,8 @@ class PickupScreen extends StatelessWidget {
                   icon: Icon(Icons.call_end),
                   color: Colors.redAccent,
                   onPressed: () async {
-                    await callMethods.endCall(call: call);
+                    await callMethods.endCall(call: widget.call);
+                    FlutterRingtonePlayer.stop();
                   },
                 ),
                 SizedBox(width: 25),
@@ -64,6 +86,7 @@ class PickupScreen extends StatelessWidget {
                     icon: Icon(Icons.call),
                     color: Colors.green,
                     onPressed: () async => {
+                          await FlutterRingtonePlayer.stop(),
                           (await _handleCameraAndMic(Permission.camera) &&
                                   await _handleCameraAndMic(
                                       Permission.microphone))
@@ -71,7 +94,7 @@ class PickupScreen extends StatelessWidget {
                                   context,
                                   MaterialPageRoute(
                                     builder: (context) =>
-                                        CallScreen(call: call),
+                                        CallScreen(call: widget.call),
                                   ),
                                 )
                               : {}

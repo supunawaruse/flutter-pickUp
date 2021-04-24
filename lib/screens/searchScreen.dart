@@ -5,6 +5,7 @@ import 'package:skype_clone/resources/firebaseRepository.dart';
 import 'package:skype_clone/screens/chatScreen.dart';
 import 'package:skype_clone/utils/universal_variables.dart';
 import 'package:skype_clone/widgets/customTile.dart';
+import 'package:skype_clone/screens/callscreens/pickup/pickup_layout.dart';
 
 class SearchScreen extends StatefulWidget {
   @override
@@ -127,12 +128,13 @@ class _SearchScreenState extends State<SearchScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        backgroundColor: UniversalVariables.blackColor,
-        appBar: searchAppBar(context),
-        body: Container(
-          padding: EdgeInsets.symmetric(horizontal: 20),
-          child: buildSuggestions(query),
-        ));
+    return PickupLayout(
+        scaffold: Scaffold(
+            backgroundColor: UniversalVariables.blackColor,
+            appBar: searchAppBar(context),
+            body: Container(
+              padding: EdgeInsets.symmetric(horizontal: 20),
+              child: buildSuggestions(query),
+            )));
   }
 }

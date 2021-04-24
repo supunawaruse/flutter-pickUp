@@ -19,6 +19,7 @@ import 'package:skype_clone/utils/universal_variables.dart';
 import 'package:skype_clone/utils/utilities.dart';
 import 'package:skype_clone/widgets/appbar.dart';
 import 'package:skype_clone/widgets/customTile.dart';
+import 'package:skype_clone/screens/callscreens/pickup/pickup_layout.dart';
 
 class ChatScreen extends StatefulWidget {
   final NormalUser reciever;
@@ -86,8 +87,8 @@ class _ChatScreenState extends State<ChatScreen> {
   Widget build(BuildContext context) {
     imageUploadProvider = Provider.of<ImageUploadProvider>(context);
 
-    return Container(
-      child: Scaffold(
+    return PickupLayout(
+      scaffold: Scaffold(
         backgroundColor: UniversalVariables.blackColor,
         appBar: customAppBar(context),
         body: Column(
@@ -428,27 +429,31 @@ class _ChatScreenState extends State<ChatScreen> {
       centerTitle: false,
       title: Text(widget.reciever.name),
       actions: [
-        IconButton(
-            icon: Icon(Icons.video_call),
-            onPressed: () async => {
-                  (await _handleCameraAndMic(Permission.camera) &&
-                          await _handleCameraAndMic(Permission.microphone))
-                      ? CallUtils.dial(
-                          from: sender, to: widget.reciever, context: context)
-                      : {}
-                }),
-        IconButton(
-            icon: Icon(Icons.phone),
-            onPressed: () async => {
-                  (await _handleCameraAndMic(Permission.camera) &&
-                          await _handleCameraAndMic(Permission.microphone))
-                      ? CallUtils.voiceDial(
-                          from: sender, to: widget.reciever, context: context)
-                      : {}
-                }),
+        IconButton(icon: Icon(Icons.video_call), onPressed: onJoin),
+        IconButton(icon: Icon(Icons.phone), onPressed: onVoiceJoin),
       ],
     );
   }
+
+//////supunaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+
+  Future<void> onJoin() async {
+    await handleCameraAndMic(Permission.camera);
+    await handleCameraAndMic(Permission.microphone);
+    CallUtils.dial(from: sender, to: widget.reciever, context: context);
+  }
+
+  Future<void> onVoiceJoin() async {
+    await handleCameraAndMic(Permission.microphone);
+    CallUtils.voiceDial(from: sender, to: widget.reciever, context: context);
+  }
+
+  Future<void> handleCameraAndMic(Permission permission) async {
+    final status = await permission.request();
+    print(status);
+  }
+
+//////supunaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
 }
 
 class ModalTile extends StatelessWidget {
