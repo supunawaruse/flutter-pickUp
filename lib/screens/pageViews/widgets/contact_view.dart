@@ -57,7 +57,9 @@ class ViewLayout extends StatelessWidget {
             ),
           )),
       title: Text(
-        (contact != null ? contact.name : null) != null ? contact.name : "..",
+        (contact != null ? contact.name : null) != null
+            ? contact.name.substring(0, 20)
+            : "..",
         style:
             TextStyle(color: Colors.white, fontFamily: "Arial", fontSize: 19),
       ),
