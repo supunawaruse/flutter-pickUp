@@ -28,16 +28,11 @@ class PickupLayout extends StatelessWidget {
                 Call call = Call.fromMap(snapshot.data.data());
 
                 if (!call.hasDialled) {
-                  if (call.type == "voice") {
-                    return VoicePickupScreen(call: call);
-                  } else {
-                    return PickupScreen(call: call);
-                  }
+                  return PickupScreen(call: call);
                 }
-              } else {
-                FlutterRingtonePlayer.stop();
-                return scaffold;
               }
+              FlutterRingtonePlayer.stop();
+              return scaffold;
             },
           )
         : Scaffold(

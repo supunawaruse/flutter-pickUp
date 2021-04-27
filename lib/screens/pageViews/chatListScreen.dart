@@ -77,7 +77,7 @@ class ChatListContainer extends StatelessWidget {
                 });
           }
 
-          return Center(child: CircularProgressIndicator());
+          return Container(child: Center(child: CircularProgressIndicator()));
         });
   }
 }

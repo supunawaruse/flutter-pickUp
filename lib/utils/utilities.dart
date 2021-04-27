@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:image/image.dart' as Im;
+import 'package:skype_clone/enum/user_state.dart';
 
 class Utils {
   static String getUserName(String email) {
@@ -25,15 +26,29 @@ class Utils {
     return File(selectedImage.path);
   }
 
-  // static Future<PickedFile> conpressImage(PickedFile imageToCompress) async {
-  //   final tempDir = await getTemporaryDirectory();
+  static int stateToNum(UserState userState) {
+    switch (userState) {
+      case UserState.Offline:
+        return 0;
 
-  //   final path = tempDir.path;
+      case UserState.Online:
+        return 1;
 
-  //   int random = Random().nextInt(1000);
+      default:
+        return 2;
+    }
+  }
 
-  //   Im.Image image = Im.decodeImage(imageToCompress.readAsBytes());
-  //   Im.copyResize(image, width: 500, height: 500);
-  //   return new PickedFile('$path/img_$random.jpg')
-  // }
+  static UserState numToState(int number) {
+    switch (number) {
+      case 0:
+        return UserState.Offline;
+
+      case 1:
+        return UserState.Online;
+
+      default:
+        return UserState.Waiting;
+    }
+  }
 }
