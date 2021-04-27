@@ -3,8 +3,9 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:image_picker/image_picker.dart';
+import 'package:skype_clone/models/contact.dart';
 import 'package:skype_clone/models/message.dart';
 import 'package:skype_clone/models/user.dart';
 import 'package:skype_clone/provider/image_upload_provider.dart';
@@ -23,6 +24,17 @@ class FirebaseMethods {
     User currentUser;
     currentUser = await _auth.currentUser;
     return currentUser;
+  }
+
+  Future<NormalUser> getUserDetailsById(id) async {
+    try {
+      DocumentSnapshot documentSnapshot =
+          await firestore.collection('users').doc(id).get();
+      return NormalUser.fromMap(documentSnapshot.data());
+    } catch (e) {
+      print(e);
+      return null;
+    }
   }
 
 // SignIn function
@@ -103,12 +115,89 @@ class FirebaseMethods {
         .collection(message.receiverId)
         .add(map);
 
+    addToContacts(senderId: message.senderId, receiverId: message.receiverId);
+
     await firestore
         .collection('messages')
         .doc(message.receiverId)
         .collection(message.senderId)
         .add(map);
   }
+
+  DocumentReference getContactsDocument({String of, String forContact}) =>
+      firestore
+          .collection('users')
+          .doc(of)
+          .collection('contacts')
+          .doc(forContact);
+
+  addToContacts({String senderId, String receiverId}) async {
+    Timestamp currentTime = Timestamp.now();
+
+    await addToSenderContacts(senderId, receiverId, currentTime);
+    await addToReceiverContacts(senderId, receiverId, currentTime);
+  }
+
+  Future<void> addToSenderContacts(
+    String senderId,
+    String receiverId,
+    currentTime,
+  ) async {
+    DocumentSnapshot senderSnapshot =
+        await getContactsDocument(of: senderId, forContact: receiverId).get();
+
+    if (!senderSnapshot.exists) {
+      //does not exists
+      Contact receiverContact = Contact(
+        uid: receiverId,
+        addedOn: currentTime,
+      );
+
+      var receiverMap = receiverContact.toMap(receiverContact);
+
+      await getContactsDocument(of: senderId, forContact: receiverId)
+          .set(receiverMap);
+    }
+  }
+
+  Future<void> addToReceiverContacts(
+    String senderId,
+    String receiverId,
+    currentTime,
+  ) async {
+    DocumentSnapshot receiverSnapshot =
+        await getContactsDocument(of: receiverId, forContact: senderId).get();
+
+    if (!receiverSnapshot.exists) {
+      //does not exists
+      Contact senderContact = Contact(
+        uid: senderId,
+        addedOn: currentTime,
+      );
+
+      var senderMap = senderContact.toMap(senderContact);
+
+      await getContactsDocument(of: receiverId, forContact: senderId)
+          .set(senderMap);
+    }
+  }
+
+  Stream<QuerySnapshot> fetchContacts({String userId}) => firestore
+      .collection('users')
+      .doc(userId)
+      .collection('contacts')
+      .snapshots();
+
+  Stream<QuerySnapshot> fetchLastMessageBetween({
+    @required String senderId,
+    @required String receiverId,
+  }) =>
+      firestore
+          .collection('messages')
+          .doc(senderId)
+          .collection(receiverId)
+          .orderBy("timestamp")
+          .snapshots();
 
   void uploadImage(File image, String receiverId, String senderId,
       ImageUploadProvider imageUploadProvider) async {
@@ -125,19 +214,6 @@ class FirebaseMethods {
         .child('${DateTime.now().millisecondsSinceEpoch}');
 
     UploadTask _uploadTask = _storageReference.putFile(image);
-
-    // var url;
-    // _uploadTask.whenComplete(() async {
-    //   try {
-    //     url = await _uploadTask.snapshot.ref.getDownloadURL();
-    //     print(await _uploadTask.snapshot.ref.getDownloadURL());
-    //   } catch (onError) {
-    //     print("Error");
-    //   }
-    // });
-
-    // return url;
-
     String url;
     await _uploadTask.whenComplete(() async {
       url = await _uploadTask.snapshot.ref.getDownloadURL();
