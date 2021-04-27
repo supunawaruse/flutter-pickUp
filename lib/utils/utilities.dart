@@ -1,10 +1,7 @@
 import 'dart:io';
-import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:image/image.dart' as Im;
 import 'package:skype_clone/enum/user_state.dart';
 
 class Utils {
