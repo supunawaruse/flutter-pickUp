@@ -83,11 +83,14 @@ class FirebaseMethods {
   }
 
   // SignOut from the application
-  Future<void> signOut() async {
-    await _googleSignIn.disconnect();
-    await _googleSignIn.signOut();
-
-    await _auth.signOut();
+  Future<bool> signOut() async {
+    try {
+      await _googleSignIn.signOut();
+      await _auth.signOut();
+      return true;
+    } catch (e) {
+      return false;
+    }
   }
 
   //get all firebase users
