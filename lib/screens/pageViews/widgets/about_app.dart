@@ -28,7 +28,7 @@ class AboutAppContainer extends StatelessWidget {
           child: Text(
             "About this app",
             style: TextStyle(
-              fontSize: 20,
+              fontSize: 18,
             ),
           ),
         ),
@@ -45,7 +45,7 @@ class AboutAppContainer extends StatelessWidget {
           margin: EdgeInsets.symmetric(horizontal: 20),
           child: Text(
             "Contact Owner",
-            style: TextStyle(fontSize: 20),
+            style: TextStyle(fontSize: 18),
           ),
         ),
         SizedBox(height: 20),
