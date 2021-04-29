@@ -1,11 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:skype_clone/models/user.dart';
-import 'package:skype_clone/provider/user_provider.dart';
 import 'package:skype_clone/utils/universal_variables.dart';
 import 'package:skype_clone/widgets/appbar.dart';
-
-import '../../cachedImage.dart';
 
 class AboutAppContainer extends StatelessWidget {
   @override

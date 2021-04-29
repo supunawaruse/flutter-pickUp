@@ -10,6 +10,7 @@ import 'package:skype_clone/resources/local_db/repository/log_repository.dart';
 import 'package:skype_clone/screens/callscreens/pickup/pickup_layout.dart';
 import 'package:skype_clone/screens/pageViews/chatListScreen.dart';
 import 'package:skype_clone/screens/pageViews/logs/log_screen.dart';
+import 'package:skype_clone/screens/pageViews/widgets/user_details_container.dart';
 import 'package:skype_clone/utils/universal_variables.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -125,6 +126,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
           children: <Widget>[
             ChatListScreen(),
             LogScreen(),
+            UserDetailsContainer(),
             Center(
               child: Text(
                 "Call Logs",
