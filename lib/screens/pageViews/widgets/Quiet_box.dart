@@ -3,7 +3,7 @@ import 'package:skype_clone/screens/searchScreen.dart';
 import 'package:skype_clone/utils/universal_variables.dart';
 
 class QuietBox extends StatelessWidget {
-  const QuietBox({Key key}) : super(key: key);
+  const QuietBox({Key key, String heading, String subtitle}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

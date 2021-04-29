@@ -4,19 +4,19 @@ import 'package:provider/provider.dart';
 import 'package:skype_clone/models/contact.dart';
 import 'package:skype_clone/provider/user_provider.dart';
 import 'package:skype_clone/resources/firebaseMethods.dart';
-import 'package:skype_clone/resources/firebaseRepository.dart';
 import 'package:skype_clone/screens/pageViews/widgets/Quiet_box.dart';
 import 'package:skype_clone/screens/pageViews/widgets/contact_view.dart';
 import 'package:skype_clone/screens/pageViews/widgets/new_chat_button.dart';
 import 'package:skype_clone/screens/pageViews/widgets/user_circle.dart';
 import 'package:skype_clone/utils/universal_variables.dart';
-import 'package:skype_clone/utils/utilities.dart';
-import 'package:skype_clone/widgets/appbar.dart';
-import 'package:skype_clone/widgets/customTile.dart';
+import 'package:skype_clone/widgets/skype_appbar.dart';
 
 class ChatListScreen extends StatelessWidget {
-  CustomAppBar customAppBar(BuildContext context) {
-    return CustomAppBar(
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: UniversalVariables.blackColor,
+      appBar: SkypeAppBar(
         title: UserCircle(),
         actions: [
           IconButton(
@@ -34,17 +34,7 @@ class ChatListScreen extends StatelessWidget {
               ),
               onPressed: () => {}),
         ],
-        leading: IconButton(
-            icon: Icon(Icons.notifications, color: Colors.white),
-            onPressed: () {}),
-        centerTitle: true);
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: UniversalVariables.blackColor,
-      appBar: customAppBar(context),
+      ),
       floatingActionButton: NewChatButton(),
       body: ChatListContainer(),
     );
