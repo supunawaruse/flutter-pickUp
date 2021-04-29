@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:skype_clone/models/call.dart';
+import 'package:skype_clone/models/log.dart';
 import 'package:skype_clone/resources/call_methods.dart';
+import 'package:skype_clone/resources/local_db/repository/log_repository.dart';
 import 'package:skype_clone/screens/cachedImage.dart';
 import 'package:skype_clone/screens/callScreens/call_screen.dart';
 import 'package:skype_clone/utils/permissions.dart';
@@ -21,6 +23,21 @@ class PickupScreen extends StatefulWidget {
 class _PickupScreenState extends State<PickupScreen> {
   final CallMethods callMethods = CallMethods();
 
+  bool isCallMissed = true;
+
+  addToLocalStorage({@required String callStatus}) {
+    Log log = Log(
+      callerName: widget.call.callerName,
+      callerPic: widget.call.callerPic,
+      receiverName: widget.call.receiverName,
+      receiverPic: widget.call.receiverPic,
+      timestamp: DateTime.now().toString(),
+      callStatus: callStatus,
+    );
+
+    LogRepository.addLogs(log);
+  }
+
   Future<bool> _handleCameraAndMic(Permission permission) async {
     final status = await permission.request();
     if (status.isGranted) {
@@ -37,12 +54,13 @@ class _PickupScreenState extends State<PickupScreen> {
     FlutterRingtonePlayer.playRingtone();
   }
 
-  // @override
-  // void dispose() {
-  //   // TODO: implement dispose
-  //   super.dispose();
-  //   FlutterRingtonePlayer.stop();
-  // }
+  @override
+  void dispose() {
+    if (isCallMissed) {
+      addToLocalStorage(callStatus: 'missed');
+    }
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -77,6 +95,8 @@ class _PickupScreenState extends State<PickupScreen> {
                   icon: Icon(Icons.call_end),
                   color: Colors.redAccent,
                   onPressed: () async {
+                    isCallMissed = false;
+                    addToLocalStorage(callStatus: 'received');
                     await callMethods.endCall(call: widget.call);
                     FlutterRingtonePlayer.stop();
                   },
@@ -86,6 +106,8 @@ class _PickupScreenState extends State<PickupScreen> {
                     icon: Icon(Icons.call),
                     color: Colors.green,
                     onPressed: () async => {
+                          isCallMissed = false,
+                          addToLocalStorage(callStatus: 'received'),
                           await FlutterRingtonePlayer.stop(),
                           (await _handleCameraAndMic(Permission.camera) &&
                                   await _handleCameraAndMic(
