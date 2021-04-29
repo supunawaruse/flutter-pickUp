@@ -17,7 +17,7 @@ class _LogListContainerState extends State<LogListContainer> {
     double _iconSize = 15;
 
     switch (callStatus) {
-      case 'dialled':
+      case 'dialed':
         _icon = Icon(
           Icons.call_made,
           size: _iconSize,
@@ -65,7 +65,7 @@ class _LogListContainerState extends State<LogListContainer> {
               itemCount: logList.length,
               itemBuilder: (context, i) {
                 Log _log = logList[i];
-                bool hasDialled = _log.callStatus == 'dialled';
+                bool hasDialled = _log.callStatus == 'dialed';
 
                 return CustomTile(
                   leading: CachedImage(

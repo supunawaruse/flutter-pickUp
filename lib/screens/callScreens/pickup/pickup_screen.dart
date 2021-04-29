@@ -7,7 +7,6 @@ import 'package:skype_clone/resources/call_methods.dart';
 import 'package:skype_clone/resources/local_db/repository/log_repository.dart';
 import 'package:skype_clone/screens/cachedImage.dart';
 import 'package:skype_clone/screens/callScreens/call_screen.dart';
-import 'package:skype_clone/utils/permissions.dart';
 
 class PickupScreen extends StatefulWidget {
   final Call call;
