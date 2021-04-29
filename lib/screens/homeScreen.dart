@@ -39,7 +39,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
         userState: UserState.Online,
       );
 
-      LogRepository.init();
+      LogRepository.init(dbName: userProvider.getUser.uid);
     });
 
     WidgetsBinding.instance.addObserver(this);
