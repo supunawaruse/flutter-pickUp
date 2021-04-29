@@ -142,6 +142,13 @@ class FirebaseMethods {
     await addToReceiverContacts(senderId, receiverId, currentTime);
   }
 
+  Future<void> deleteContactFromUser({String of, String forContact}) async {
+    DocumentReference documentToDelete =
+        getContactsDocument(of: of, forContact: forContact);
+
+    await documentToDelete.delete();
+  }
+
   Future<void> addToSenderContacts(
     String senderId,
     String receiverId,

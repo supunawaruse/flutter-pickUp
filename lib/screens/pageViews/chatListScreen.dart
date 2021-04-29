@@ -27,12 +27,12 @@ class ChatListScreen extends StatelessWidget {
               onPressed: () {
                 Navigator.pushNamed(context, "/search_screen");
               }),
-          IconButton(
-              icon: Icon(
-                Icons.more_vert,
-                color: Colors.white,
-              ),
-              onPressed: () => {}),
+          PopupMenuButton(
+            icon: Icon(
+              Icons.more_vert,
+              color: Colors.white,
+            ),
+          ),
         ],
       ),
       floatingActionButton: NewChatButton(),

@@ -49,6 +49,27 @@ class ViewLayout extends StatelessWidget {
 
     return CustomTile(
       mini: false,
+      onLongPress: () => showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: Text("Delete this Chat?"),
+          content: Text("Are you sure you wish to delete this chat?"),
+          actions: [
+            FlatButton(
+              child: Text("YES"),
+              onPressed: () async {
+                Navigator.maybePop(context);
+                await firebaseMethods.deleteContactFromUser(
+                    of: userProvider.getUser.uid, forContact: contact.uid);
+              },
+            ),
+            FlatButton(
+              child: Text("NO"),
+              onPressed: () => Navigator.maybePop(context),
+            ),
+          ],
+        ),
+      ),
       onTap: () => Navigator.push(
           context,
           MaterialPageRoute(
