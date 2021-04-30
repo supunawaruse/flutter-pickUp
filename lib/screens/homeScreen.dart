@@ -10,6 +10,7 @@ import 'package:skype_clone/resources/local_db/repository/log_repository.dart';
 import 'package:skype_clone/screens/callscreens/pickup/pickup_layout.dart';
 import 'package:skype_clone/screens/pageViews/chatListScreen.dart';
 import 'package:skype_clone/screens/pageViews/logs/log_screen.dart';
+import 'package:skype_clone/screens/pageViews/widgets/user_details_container.dart';
 import 'package:skype_clone/utils/universal_variables.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -125,17 +126,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
           children: <Widget>[
             ChatListScreen(),
             LogScreen(),
-            Center(
-              child: Text(
-                "Call Logs",
-                style: TextStyle(color: Colors.white),
-              ),
-            ),
-            Center(
-                child: Text(
-              "Contact Screen",
-              style: TextStyle(color: Colors.white),
-            )),
+            UserDetailsContainer()
           ],
           controller: pageController,
           onPageChanged: onPageChanged,
@@ -176,12 +167,12 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                   ),
                 ),
                 BottomNavigationBarItem(
-                  icon: Icon(Icons.contact_phone,
+                  icon: Icon(Icons.person,
                       color: (_page == 2)
                           ? UniversalVariables.lightBlueColor
                           : UniversalVariables.greyColor),
                   title: Text(
-                    "Contacts",
+                    "Profile",
                     style: TextStyle(
                         fontSize: _labelFontSize,
                         color: (_page == 2)
