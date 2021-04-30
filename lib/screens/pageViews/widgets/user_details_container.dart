@@ -16,7 +16,8 @@ class UserDetailsContainer extends StatelessWidget {
     final UserProvider userProvider = Provider.of<UserProvider>(context);
 
     signOut() async {
-      final bool isLoggedOut = await firebaseMethods.signOut();
+      final bool isLoggedOut =
+          await firebaseMethods.signOut(userProvider.getUser.uid);
       if (isLoggedOut) {
         // set userState to offline as the user logs out'
         firebaseMethods.setUserState(
