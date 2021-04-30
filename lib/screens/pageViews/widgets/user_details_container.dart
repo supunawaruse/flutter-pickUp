@@ -34,17 +34,9 @@ class UserDetailsContainer extends StatelessWidget {
     }
 
     return Container(
-      margin: EdgeInsets.only(top: 25),
       child: Column(
         children: <Widget>[
           CustomAppBar(
-            leading: IconButton(
-              icon: Icon(
-                Icons.arrow_back,
-                color: Colors.white,
-              ),
-              onPressed: () => Navigator.maybePop(context),
-            ),
             centerTitle: true,
             title: Text("User Details"),
             actions: <Widget>[

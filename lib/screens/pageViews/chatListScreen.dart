@@ -5,9 +5,11 @@ import 'package:skype_clone/models/contact.dart';
 import 'package:skype_clone/provider/user_provider.dart';
 import 'package:skype_clone/resources/firebaseMethods.dart';
 import 'package:skype_clone/screens/pageViews/widgets/Quiet_box.dart';
+import 'package:skype_clone/screens/pageViews/widgets/about_app.dart';
 import 'package:skype_clone/screens/pageViews/widgets/contact_view.dart';
 import 'package:skype_clone/screens/pageViews/widgets/new_chat_button.dart';
 import 'package:skype_clone/screens/pageViews/widgets/user_circle.dart';
+import 'package:skype_clone/screens/pageViews/widgets/user_details_container.dart';
 import 'package:skype_clone/utils/universal_variables.dart';
 import 'package:skype_clone/widgets/skype_appbar.dart';
 
@@ -27,15 +29,30 @@ class ChatListScreen extends StatelessWidget {
               onPressed: () {
                 Navigator.pushNamed(context, "/search_screen");
               }),
-          IconButton(
-              icon: Icon(
-                Icons.more_vert,
-                color: Colors.white,
-              ),
-              onPressed: () => {}),
+          PopupMenuButton(
+            icon: Icon(
+              Icons.more_vert,
+              color: Colors.white,
+            ),
+            itemBuilder: (context) {
+              return List.generate(1, (index) {
+                return PopupMenuItem(
+                  value: index,
+                  child: Text('About App'),
+                );
+              });
+            },
+            onSelected: (value) => {
+              showModalBottomSheet(
+                  context: context,
+                  backgroundColor: UniversalVariables.blackColor,
+                  builder: (context) => AboutAppContainer(),
+                  isScrollControlled: true)
+            },
+          ),
         ],
       ),
-      floatingActionButton: NewChatButton(),
+      // floatingActionButton: NewChatButton(),
       body: ChatListContainer(),
     );
   }
@@ -55,9 +72,12 @@ class ChatListContainer extends StatelessWidget {
             var docList = snapshot.data.docs;
 
             if (docList.isEmpty) {
-              return QuietBox();
+              return QuietBox(
+                heading: 'This is where all the contacts are listed',
+                subtitle:
+                    'Search for your friends and family to start calling or chatting with them',
+              );
             }
-
             return ListView.builder(
                 padding: EdgeInsets.all(10),
                 itemCount: docList.length,
