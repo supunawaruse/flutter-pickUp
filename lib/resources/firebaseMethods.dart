@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -83,8 +84,11 @@ class FirebaseMethods {
   }
 
   // SignOut from the application
-  Future<bool> signOut() async {
+  Future<bool> signOut(String userId) async {
     try {
+      await FirebaseFirestore.instance.collection('users').doc(userId).update({
+        'tokens': null,
+      });
       await _googleSignIn.signOut();
       await _auth.signOut();
       return true;
