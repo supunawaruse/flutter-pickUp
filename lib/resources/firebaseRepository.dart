@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -22,7 +21,7 @@ class FirebaseRepository {
   Future<void> addDataToDatabase(User user) =>
       _firebaseMethods.addDataToDatabase(user);
 
-  Future<void> signOut() => _firebaseMethods.signOut();
+  Future<void> signOut(String userId) => _firebaseMethods.signOut(userId);
 
   Future<List<NormalUser>> fetchAllUsers(User user) =>
       _firebaseMethods.fetchAllUsers(user);

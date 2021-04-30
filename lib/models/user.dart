@@ -7,14 +7,15 @@ class NormalUser {
   int state;
   String profilePhoto;
 
-  NormalUser(
-      {this.uid,
-      this.name,
-      this.email,
-      this.username,
-      this.profilePhoto,
-      this.state,
-      this.status});
+  NormalUser({
+    this.uid,
+    this.name,
+    this.email,
+    this.username,
+    this.profilePhoto,
+    this.state,
+    this.status,
+  });
 
   Map toMap(NormalUser normalUser) {
     var data = Map<String, dynamic>();
