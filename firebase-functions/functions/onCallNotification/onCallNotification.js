@@ -11,25 +11,29 @@ const onCallNotification = functions.firestore
     const id = value.caller_id
     const owner = await admin.firestore().collection('users').doc(id).get()
 
-    await admin.messaging().sendToDevice(
-      owner.data().tokens, // ['token_1', 'token_2', ...]
-      {
-        data: {
-          title: 'supuna',
-          body: 'hey',
+    const dialerId = context.params.callerId
+
+    if (dialerId === id) {
+      await admin.messaging().sendToDevice(
+        owner.data().tokens[0], // ['token_1', 'token_2', ...]
+        {
+          data: {
+            title: 'supuna',
+            body: 'hey',
+          },
+          notification: {
+            title: 'supunaqweqwe',
+            body: 'hey',
+          },
         },
-        notification: {
-          title: 'supuna',
-          body: 'hey',
-        },
-      },
-      {
-        // Required for background/quit data-only messages on iOS
-        contentAvailable: true,
-        // Required for background/quit data-only messages on Android
-        priority: 'high',
-      }
-    )
+        {
+          // Required for background/quit data-only messages on iOS
+          contentAvailable: true,
+          // Required for background/quit data-only messages on Android
+          priority: 'high',
+        }
+      )
+    }
   })
 
 module.exports = {
