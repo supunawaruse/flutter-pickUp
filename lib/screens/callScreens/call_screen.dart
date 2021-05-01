@@ -91,7 +91,7 @@ class _CallScreenState extends State<CallScreen> {
     configuration.dimensions = VideoDimensions(1920, 1080);
     await _engine.setVideoEncoderConfiguration(configuration);
     await _engine.joinChannel(
-        '00664b69ba11ab340679b6bcd0a3cb3823eIADFD8WwLuZbfMTYq8b0yDI+iBcuEmZp2FR6DmkaJgiRTQx+f9gAAAAAEAALtir+Or6LYAEAAQA6votg',
+        '00664b69ba11ab340679b6bcd0a3cb3823eIABFEaxOa4sGxyvx0QGPn117RWDmS7D96ckiVkzpK1jrPwx+f9gAAAAAEAALtir+PHaOYAEAAQA8do5g',
         'test',
         null,
         0);
