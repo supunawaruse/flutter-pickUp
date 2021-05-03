@@ -1,10 +1,6 @@
 const functions = require('firebase-functions')
 const admin = require('firebase-admin')
-const {
-  RtcTokenBuilder,
-  RtcRole,
-  RtmTokenBuilder,
-} = require('agora-access-token')
+const { RtcTokenBuilder, RtcRole } = require('agora-access-token')
 const { adminInitApp } = require('../adminInitApp.js')
 
 const defaultApp = adminInitApp()
@@ -27,7 +23,7 @@ const createCallsWithTokens = functions.https.onCall(async (data, context) => {
     const currentTimestamp = Math.floor(Date.now() / 1000)
     const privilegeExpired = currentTimestamp + expirationTimeInSeconds
     const uid = 0
-    const channelName = Math.floor(Math.random() * 101)
+    const channelName = Math.floor(Math.random() * 101).toString()
 
     const token = RtcTokenBuilder.buildTokenWithUid(
       appId,
@@ -37,10 +33,32 @@ const createCallsWithTokens = functions.https.onCall(async (data, context) => {
       role,
       privilegeExpired
     )
-    console.log(token)
-    return context.auth.uid
+
+    await admin.firestore().collection('call').doc(data.receiverId).set({
+      senderId: data.senderId,
+      senderName: data.sederName,
+      senderPic: data.senderPic,
+      receiverId: data.receiverId,
+      receiverName: data.receiverName,
+      receiverPic: data.receiverPic,
+      type: 'video',
+      channelId: channelName,
+      token: token,
+    })
+
+    await admin.firestore().collection('call').doc(data.senderId).set({
+      senderId: data.senderId,
+      senderName: data.sederName,
+      senderPic: data.senderPic,
+      receiverId: data.receiverId,
+      receiverName: data.receiverName,
+      receiverPic: data.receiverPic,
+      type: 'video',
+      channelId: channelName,
+      token: token,
+    })
   } catch (error) {
-    throw new functions.https.HttpsError('eroor white')
+    console.log(error)
   }
 })
 
