@@ -1,8 +1,11 @@
 const functions = require('firebase-functions')
 const admin = require('firebase-admin')
-admin.initializeApp()
+const { adminInitApp } = require('../adminInitApp')
+// admin.initializeApp()
 
 const { RtcTokenBuilder, RtcRole } = require('agora-access-token')
+
+const defaultApp = adminInitApp()
 
 const db = admin.firestore()
 
