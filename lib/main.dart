@@ -59,15 +59,9 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  getToken() async {
-    String token = await FirebaseMessaging.instance.getToken();
-    print(token);
-  }
-
   @override
   void initState() {
     super.initState();
-    getToken();
 
     var initialzationSettingsAndroid =
         AndroidInitializationSettings('@mipmap/ic_launcher');

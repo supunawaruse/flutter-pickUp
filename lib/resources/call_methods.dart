@@ -11,13 +11,13 @@ class CallMethods {
 
   Future<bool> makeCall({Call call}) async {
     try {
-      call.hasDialled = true;
-      Map<String, dynamic> hasDialledMap = call.toMap(call);
+      call.hasDialed = true;
+      Map<String, dynamic> hasDialedMap = call.toMap(call);
 
-      call.hasDialled = false;
+      call.hasDialed = false;
       Map<String, dynamic> hasNotDialledMap = call.toMap(call);
 
-      await callCollection.doc(call.callerId).set(hasDialledMap);
+      await callCollection.doc(call.callerId).set(hasDialedMap);
       await callCollection.doc(call.receiverId).set(hasNotDialledMap);
       return true;
     } catch (e) {

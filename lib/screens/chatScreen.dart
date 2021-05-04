@@ -449,24 +449,6 @@ class _ChatScreenState extends State<ChatScreen> {
   Future<void> onVoiceJoin() async {
     // await handleCameraAndMic(Permission.microphone);
     // CallUtils.voiceDial(from: sender, to: widget.reciever, context: context);
-    //
-    //
-    try {
-      HttpsCallable callable =
-          FirebaseFunctions.instance.httpsCallable('createCallsWithTokens');
-      dynamic resp = await callable.call({
-        "senderId": "supuna",
-        "sederName": "supuna",
-        "senderPic": "supuna",
-        "receiverId": "supuna",
-        "receiverName": "supuna",
-        "receiverPic": "supuna",
-      });
-      print(resp.data['msg']);
-    } catch (e) {
-      print(e);
-      print('error with function 12333333333333333333333333333333333333333333');
-    }
   }
 
   Future<void> handleCameraAndMic(Permission permission) async {

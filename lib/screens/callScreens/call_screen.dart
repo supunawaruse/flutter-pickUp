@@ -50,10 +50,6 @@ class _CallScreenState extends State<CallScreen> {
     super.initState();
     addPostFrameCallback();
     initializeAgora();
-    print(
-        'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa');
-    print(widget.call.channelId);
-    print(widget.call.token);
   }
 
   addPostFrameCallback() {

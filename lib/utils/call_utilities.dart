@@ -19,7 +19,7 @@ class CallUtils {
         callerPic: from.profilePhoto,
         receiverId: to.uid,
         receiverName: to.name,
-        hasDialled: true,
+        hasDialed: true,
         token: '',
         receiverPic: to.profilePhoto,
         channelId: '',
@@ -36,7 +36,7 @@ class CallUtils {
 
     Map<String, dynamic> result = await callMethods.makeCloudCall(call: call);
 
-    // call.hasDialled = true;
+    // call.hasDialed = true;
 
     Call callWithToken = Call(
         callerId: from.uid,
@@ -46,7 +46,7 @@ class CallUtils {
         receiverName: to.name,
         receiverPic: to.profilePhoto,
         channelId: result['channelId'],
-        hasDialled: true,
+        hasDialed: true,
         type: "video",
         token: result['token']);
 
@@ -73,7 +73,7 @@ class CallUtils {
 
   //   bool callMade = await callMethods.makeCall(call: call);
 
-  //   call.hasDialled = true;
+  //   call.hasDialed = true;
 
   //   if (callMade) {
   //     Navigator.push(
