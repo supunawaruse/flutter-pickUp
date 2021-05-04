@@ -1,6 +1,10 @@
 const functions = require('firebase-functions')
 const admin = require('firebase-admin')
-const { RtcTokenBuilder, RtcRole } = require('agora-access-token')
+const {
+  RtcTokenBuilder,
+  RtcRole,
+  RtmTokenBuilder,
+} = require('agora-access-token')
 const { adminInitApp } = require('../adminInitApp.js')
 
 const defaultApp = adminInitApp()
@@ -17,13 +21,13 @@ const createCallsWithTokens = functions.https.onCall(async (data, context) => {
     }
 
     const appId = '64b69ba11ab340679b6bcd0a3cb3823e'
-    const appCertificate = '3381071b1dde451daa52ee197de81478'
+    const appCertificate = 'b0c3c9df72ae45069e65c33e2e2618ee'
     const role = RtcRole.PUBLISHER
     const expirationTimeInSeconds = 3600
     const currentTimestamp = Math.floor(Date.now() / 1000)
     const privilegeExpired = currentTimestamp + expirationTimeInSeconds
     const uid = 0
-    const channelName = Math.floor(Math.random() * 101).toString()
+    const channelName = Math.floor(Math.random() * 100).toString()
 
     const token = RtcTokenBuilder.buildTokenWithUid(
       appId,
@@ -34,29 +38,42 @@ const createCallsWithTokens = functions.https.onCall(async (data, context) => {
       privilegeExpired
     )
 
+    const res = await admin
+      .firestore()
+      .collection('call')
+      .doc(data.callerId)
+      .set({
+        callerId: data.callerId,
+        callerName: data.callerName,
+        callerPic: data.callerPic,
+        receiverId: data.receiverId,
+        receiverName: data.receiverName,
+        receiverPic: data.receiverPic,
+        type: 'video',
+        channelId: channelName,
+        hasDialed: true,
+        token: token,
+      })
+
     await admin.firestore().collection('call').doc(data.receiverId).set({
-      senderId: data.senderId,
-      senderName: data.sederName,
-      senderPic: data.senderPic,
+      callerId: data.callerId,
+      callerName: data.callerName,
+      callerPic: data.callerPic,
       receiverId: data.receiverId,
       receiverName: data.receiverName,
       receiverPic: data.receiverPic,
       type: 'video',
       channelId: channelName,
+      hasDialed: false,
       token: token,
     })
 
-    await admin.firestore().collection('call').doc(data.senderId).set({
-      senderId: data.senderId,
-      senderName: data.sederName,
-      senderPic: data.senderPic,
-      receiverId: data.receiverId,
-      receiverName: data.receiverName,
-      receiverPic: data.receiverPic,
-      type: 'video',
-      channelId: channelName,
-      token: token,
-    })
+    return {
+      data: {
+        token: token,
+        channelId: channelName,
+      },
+    }
   } catch (error) {
     console.log(error)
   }

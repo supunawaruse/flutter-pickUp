@@ -454,8 +454,15 @@ class _ChatScreenState extends State<ChatScreen> {
     try {
       HttpsCallable callable =
           FirebaseFunctions.instance.httpsCallable('createCallsWithTokens');
-      dynamic resp = await callable.call({"callerId": "supuna"});
-      print(resp.data);
+      dynamic resp = await callable.call({
+        "senderId": "supuna",
+        "sederName": "supuna",
+        "senderPic": "supuna",
+        "receiverId": "supuna",
+        "receiverName": "supuna",
+        "receiverPic": "supuna",
+      });
+      print(resp.data['msg']);
     } catch (e) {
       print(e);
       print('error with function 12333333333333333333333333333333333333333333');

@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cloud_functions/cloud_functions.dart';
 import 'package:skype_clone/models/call.dart';
 
 class CallMethods {
@@ -22,6 +23,30 @@ class CallMethods {
     } catch (e) {
       print(e);
       return false;
+    }
+  }
+
+  Future<Map<String, dynamic>> makeCloudCall({Call call}) async {
+    try {
+      HttpsCallable callable =
+          FirebaseFunctions.instance.httpsCallable('createCallsWithTokens');
+      dynamic resp = await callable.call({
+        "callerId": call.callerId,
+        "callerName": call.callerName,
+        "callerPic": call.callerPic,
+        "receiverId": call.receiverId,
+        "receiverName": call.receiverName,
+        "receiverPic": call.receiverPic,
+      });
+
+      Map<String, dynamic> res = {
+        'token': resp.data['data']['token'],
+        'channelId': resp.data['data']['channelId']
+      };
+      return res;
+    } catch (e) {
+      print(e);
+      return null;
     }
   }
 
