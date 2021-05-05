@@ -27,17 +27,15 @@ class PickupLayout extends StatelessWidget {
                 AsyncSnapshot<DocumentSnapshot> snapshot) {
               if (snapshot.hasData && snapshot.data.data() != null) {
                 Call call = Call.fromMap(snapshot.data.data());
-                print(
-                    'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb');
-                print(snapshot.data.data());
                 if (!call.hasDialed) {
-                  return PickupScreen(call: call);
+                  if (call.type == "video") {
+                    return PickupScreen(call: call);
+                  } else {
+                    return VoicePickupScreen(call: call);
+                  }
                 }
               }
               FlutterRingtonePlayer.stop();
-              print(
-                  'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa');
-
               return scaffold;
             },
           )

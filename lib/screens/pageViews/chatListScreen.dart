@@ -73,6 +73,7 @@ class ChatListContainer extends StatelessWidget {
 
             if (docList.isEmpty) {
               return QuietBox(
+                searchToggle: true,
                 heading: 'This is where all the contacts are listed',
                 subtitle:
                     'Search for your friends and family to start calling or chatting with them',

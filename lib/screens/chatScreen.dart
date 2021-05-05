@@ -448,7 +448,7 @@ class _ChatScreenState extends State<ChatScreen> {
 
   Future<void> onVoiceJoin() async {
     // await handleCameraAndMic(Permission.microphone);
-    // CallUtils.voiceDial(from: sender, to: widget.reciever, context: context);
+    CallUtils.voiceDial(from: sender, to: widget.reciever, context: context);
   }
 
   Future<void> handleCameraAndMic(Permission permission) async {

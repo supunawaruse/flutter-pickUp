@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:skype_clone/models/log.dart';
+import 'package:skype_clone/provider/call_logs_provider.dart';
 import 'package:skype_clone/resources/local_db/repository/log_repository.dart';
 import 'package:skype_clone/screens/cachedImage.dart';
 import 'package:skype_clone/screens/pageViews/widgets/Quiet_box.dart';
@@ -117,12 +119,14 @@ class _LogListContainerState extends State<LogListContainer> {
             );
           }
           return QuietBox(
+            searchToggle: true,
             heading: "This is where all your call logs are listed",
             subtitle: "Calling people all over the world with just one click",
           );
         }
 
         return QuietBox(
+          searchToggle: true,
           heading: "This is where all your call logs are listed",
           subtitle: "Calling people all over the world with just one click",
         );
