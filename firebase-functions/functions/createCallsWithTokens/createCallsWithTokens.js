@@ -38,11 +38,35 @@ const createCallsWithTokens = functions.https.onCall(async (data, context) => {
       privilegeExpired
     )
 
-    const res = await admin
-      .firestore()
-      .collection('call')
-      .doc(data.callerId)
-      .set({
+    const isCallerBusy = db.collection('call').doc(data.callerId).get()
+    const isReceiverBusy = db.collection('call').doc(data.receiverId).get()
+
+    if ((await isCallerBusy).exists || (await isReceiverBusy).exists) {
+      return {
+        data: {
+          token: '',
+          channelId: '',
+        },
+      }
+    } else {
+      const res = await admin
+        .firestore()
+        .collection('call')
+        .doc(data.callerId)
+        .set({
+          callerId: data.callerId,
+          callerName: data.callerName,
+          callerPic: data.callerPic,
+          receiverId: data.receiverId,
+          receiverName: data.receiverName,
+          receiverPic: data.receiverPic,
+          type: data.type,
+          channelId: channelName,
+          hasDialed: true,
+          token: token,
+        })
+
+      await admin.firestore().collection('call').doc(data.receiverId).set({
         callerId: data.callerId,
         callerName: data.callerName,
         callerPic: data.callerPic,
@@ -51,28 +75,16 @@ const createCallsWithTokens = functions.https.onCall(async (data, context) => {
         receiverPic: data.receiverPic,
         type: 'video',
         channelId: channelName,
-        hasDialed: true,
+        hasDialed: false,
         token: token,
       })
 
-    await admin.firestore().collection('call').doc(data.receiverId).set({
-      callerId: data.callerId,
-      callerName: data.callerName,
-      callerPic: data.callerPic,
-      receiverId: data.receiverId,
-      receiverName: data.receiverName,
-      receiverPic: data.receiverPic,
-      type: 'video',
-      channelId: channelName,
-      hasDialed: false,
-      token: token,
-    })
-
-    return {
-      data: {
-        token: token,
-        channelId: channelName,
-      },
+      return {
+        data: {
+          token: token,
+          channelId: channelName,
+        },
+      }
     }
   } catch (error) {
     console.log(error)

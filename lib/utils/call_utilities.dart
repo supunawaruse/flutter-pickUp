@@ -40,8 +40,6 @@ class CallUtils {
 
     Map<String, dynamic> result = await callMethods.makeCloudCall(call: call);
 
-    // call.hasDialed = true;
-
     Call callWithToken = Call(
         callerId: from.uid,
         callerName: from.name,
@@ -63,6 +61,8 @@ class CallUtils {
           MaterialPageRoute(
             builder: (context) => CallScreen(call: callWithToken),
           ));
+    } else {
+      print("caller is busy right");
     }
   }
 

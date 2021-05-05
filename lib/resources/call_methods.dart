@@ -37,6 +37,7 @@ class CallMethods {
         "receiverId": call.receiverId,
         "receiverName": call.receiverName,
         "receiverPic": call.receiverPic,
+        "type": call.type
       });
 
       Map<String, dynamic> res = {
