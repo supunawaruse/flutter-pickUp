@@ -63,6 +63,12 @@ class SqliteMethods implements LogInterface {
         .delete(tableName, where: '$id = ?', whereArgs: [logId + 1]);
   }
 
+  @override
+  deleteAllLogs() async {
+    var dbClient = await db;
+    return await dbClient.delete(tableName);
+  }
+
   updateLogs(Log log) async {
     var dbClient = await db;
 

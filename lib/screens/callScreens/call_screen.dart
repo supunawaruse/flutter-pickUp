@@ -91,10 +91,7 @@ class _CallScreenState extends State<CallScreen> {
     configuration.dimensions = VideoDimensions(1920, 1080);
     await _engine.setVideoEncoderConfiguration(configuration);
     await _engine.joinChannel(
-        '00664b69ba11ab340679b6bcd0a3cb3823eIABFEaxOa4sGxyvx0QGPn117RWDmS7D96ckiVkzpK1jrPwx+f9gAAAAAEAALtir+PHaOYAEAAQA8do5g',
-        'test',
-        null,
-        0);
+        widget.call.token, widget.call.channelId, null, 0);
   }
 
   /// Create agora sdk instance and initialize
