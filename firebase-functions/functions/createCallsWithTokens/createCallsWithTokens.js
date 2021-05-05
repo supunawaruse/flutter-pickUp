@@ -73,7 +73,7 @@ const createCallsWithTokens = functions.https.onCall(async (data, context) => {
         receiverId: data.receiverId,
         receiverName: data.receiverName,
         receiverPic: data.receiverPic,
-        type: 'video',
+        type: data.type,
         channelId: channelName,
         hasDialed: false,
         token: token,
