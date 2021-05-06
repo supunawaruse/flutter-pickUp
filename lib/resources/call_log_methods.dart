@@ -11,11 +11,18 @@ class LogMethods {
 
 // add To Log
 
-  addToLogs({String callerId, String receiverId, String callStatus}) async {
+  addToLogs(
+      {String callerId,
+      String receiverId,
+      String callStatus,
+      bool caller}) async {
     Timestamp currentTime = Timestamp.now();
 
-    await addToCallerLog(callerId, receiverId, callStatus, currentTime);
-    // await addToReceiverLog(callerId, receiverId, callStatus, currentTime);
+    if (caller) {
+      await addToCallerLog(callerId, receiverId, callStatus, currentTime);
+    } else {
+      await addToReceiverLog(callerId, receiverId, callStatus, currentTime);
+    }
   }
 
   Future<void> addToCallerLog(
@@ -39,7 +46,7 @@ class LogMethods {
     currentTime,
   ) async {
     FLog callerLog =
-        FLog(uid: receiverId, addedOn: currentTime, callStatus: callStatus);
+        FLog(uid: callerId, addedOn: currentTime, callStatus: callStatus);
 
     var receiverMap = callerLog.toMap(callerLog);
 

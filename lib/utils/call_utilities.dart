@@ -55,7 +55,10 @@ class CallUtils {
     if (result['token'] != '') {
       LogRepository.addLogs(log);
       logMethods.addToLogs(
-          callerId: from.uid, receiverId: to.uid, callStatus: 'dialed');
+          callerId: from.uid,
+          receiverId: to.uid,
+          callStatus: 'dialed',
+          caller: true);
       Navigator.push(
           context,
           MaterialPageRoute(
@@ -105,7 +108,10 @@ class CallUtils {
     if (result['token'] != '') {
       LogRepository.addLogs(log);
       logMethods.addToLogs(
-          callerId: from.uid, receiverId: to.uid, callStatus: 'dialed');
+          callerId: from.uid,
+          receiverId: to.uid,
+          callStatus: 'dialed',
+          caller: true);
       Navigator.push(
           context,
           MaterialPageRoute(

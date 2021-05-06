@@ -71,9 +71,8 @@ class _FLogListContainerState extends State<FLogListContainer> {
           bool hasDialled = widget.fLog.callStatus == 'dialed';
           return CustomTile(
             leading: CachedImage(
-              hasDialled
-                  ? user.profilePhoto
-                  : userProvider.getUser.profilePhoto,
+              // hasDialled ? user.profilePhoto : user.profilePhoto,
+              user.profilePhoto,
               isRound: true,
               radius: 45,
             ),

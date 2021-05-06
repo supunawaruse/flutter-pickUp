@@ -40,7 +40,8 @@ class _PickupScreenState extends State<PickupScreen> {
     logMethods.addToLogs(
         callerId: widget.call.callerId,
         receiverId: widget.call.receiverId,
-        callStatus: callStatus);
+        callStatus: callStatus,
+        caller: false);
   }
 
   Future<bool> _handleCameraAndMic(Permission permission) async {

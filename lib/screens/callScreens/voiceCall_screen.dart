@@ -189,6 +189,8 @@ class _VoiceCallScreenState extends State<VoiceCallScreen> {
 
   @override
   Widget build(BuildContext context) {
+    userProvider = Provider.of<UserProvider>(context, listen: false);
+
     return Scaffold(
       body: SafeArea(
         child: Container(
