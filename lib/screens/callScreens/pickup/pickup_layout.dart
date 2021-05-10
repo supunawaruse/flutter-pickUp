@@ -23,12 +23,16 @@ class PickupLayout extends StatelessWidget {
     return (userProvider != null && userProvider.getUser != null)
         ? StreamBuilder<DocumentSnapshot>(
             stream: callMethods.callStream(uid: userProvider.getUser.uid),
-            builder: (context, snapshot) {
+            builder: (BuildContext context,
+                AsyncSnapshot<DocumentSnapshot> snapshot) {
               if (snapshot.hasData && snapshot.data.data() != null) {
                 Call call = Call.fromMap(snapshot.data.data());
-
-                if (!call.hasDialled) {
-                  return PickupScreen(call: call);
+                if (!call.hasDialed) {
+                  if (call.type == "video") {
+                    return PickupScreen(call: call);
+                  } else {
+                    return VoicePickupScreen(call: call);
+                  }
                 }
               }
               FlutterRingtonePlayer.stop();

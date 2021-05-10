@@ -20,34 +20,84 @@ class _LoginScreenState extends State<LoginScreen> {
 
   bool isLoginPressed = false;
 
+  // @override
+  // Widget build(BuildContext context) {
+  //   return Scaffold(
+  //     backgroundColor: UniversalVariables.blackColor,
+  //     body: Stack(
+  //       children: [
+  //         Center(
+  //           child: loginButton(),
+  //         ),
+  //         isLoginPressed
+  //             ? Center(
+  //                 child: CircularProgressIndicator(),
+  //               )
+  //             : Container()
+  //       ],
+  //     ),
+  //   );
+  // }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: UniversalVariables.blackColor,
-      body: Stack(
-        children: [
-          Center(
-            child: loginButton(),
-          ),
-          isLoginPressed
-              ? Center(
-                  child: CircularProgressIndicator(),
-                )
-              : Container()
-        ],
-      ),
-    );
+        body: Center(
+            child: Container(
+                height: (MediaQuery.of(context).size.height),
+                width: (MediaQuery.of(context).size.width),
+                decoration: BoxDecoration(
+                    image: DecorationImage(
+                        image:
+                            ExactAssetImage('assets/img/loginBackground.png'),
+                        fit: BoxFit.cover)),
+                child: Center(
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 100),
+                    child: Column(
+                      children: [
+                        Text(
+                          'PickUp',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              color: Color(0xFF9F2B5C),
+                              fontSize: 48,
+                              fontFamily: 'Pacifico'),
+                        ),
+                        SizedBox(height: 20),
+                        Container(
+                          height:
+                              (MediaQuery.of(context).size.height) * 40 / 100,
+                          width: (MediaQuery.of(context).size.width) - 20,
+                          decoration: BoxDecoration(
+                              image: DecorationImage(
+                                  image: ExactAssetImage(
+                                      'assets/img/loginImage.png'),
+                                  fit: BoxFit.cover)),
+                        ),
+                        SizedBox(height: 20),
+                        loginButton()
+                      ],
+                    ),
+                  ),
+                ))));
   }
 
   Widget loginButton() {
     return Shimmer.fromColors(
-      baseColor: Colors.white,
-      highlightColor: UniversalVariables.senderColor,
+      baseColor: Color(0xFF9f2b5c),
+      highlightColor: Colors.white,
       child: TextButton(
         onPressed: () => performLogin(),
-        child: Text(
-          'Login',
-          style: TextStyle(fontSize: 24),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              'Let\'s go',
+              style: TextStyle(fontSize: 22),
+            ),
+            Icon(Icons.arrow_forward)
+          ],
         ),
       ),
     );
