@@ -17,23 +17,17 @@ class ChatListScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: UniversalVariables.blackColor,
+      backgroundColor: Colors.white,
       appBar: SkypeAppBar(
         title: UserCircle(),
         actions: [
           IconButton(
-              icon: Icon(
-                Icons.search,
-                color: Colors.white,
-              ),
+              icon: Icon(Icons.search, color: Colors.white),
               onPressed: () {
                 Navigator.pushNamed(context, "/search_screen");
               }),
           PopupMenuButton(
-            icon: Icon(
-              Icons.more_vert,
-              color: Colors.white,
-            ),
+            icon: Icon(Icons.more_vert, color: Colors.white),
             itemBuilder: (context) {
               return List.generate(1, (index) {
                 return PopupMenuItem(

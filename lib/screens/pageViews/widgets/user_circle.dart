@@ -15,8 +15,7 @@ class UserCircle extends StatelessWidget {
       height: 40,
       width: 40,
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(50),
-          color: UniversalVariables.separatorColor),
+          borderRadius: BorderRadius.circular(50), color: Colors.white),
       child: Stack(
         children: [
           Align(
@@ -25,7 +24,7 @@ class UserCircle extends StatelessWidget {
                 Utils.getInitials(userProvider.getUser.name),
                 style: TextStyle(
                     fontWeight: FontWeight.bold,
-                    color: UniversalVariables.lightBlueColor,
+                    color: UniversalVariables.darkPurple,
                     fontSize: 13),
               )),
           Align(
