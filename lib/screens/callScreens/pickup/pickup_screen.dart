@@ -3,6 +3,7 @@ import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:skype_clone/models/call.dart';
 import 'package:skype_clone/models/log.dart';
+import 'package:skype_clone/resources/call_log_methods.dart';
 import 'package:skype_clone/resources/call_methods.dart';
 import 'package:skype_clone/resources/local_db/repository/log_repository.dart';
 import 'package:skype_clone/screens/cachedImage.dart';
@@ -21,6 +22,7 @@ class PickupScreen extends StatefulWidget {
 
 class _PickupScreenState extends State<PickupScreen> {
   final CallMethods callMethods = CallMethods();
+  final LogMethods logMethods = LogMethods();
 
   bool isCallMissed = true;
 
@@ -35,6 +37,11 @@ class _PickupScreenState extends State<PickupScreen> {
     );
 
     LogRepository.addLogs(log);
+    logMethods.addToLogs(
+        callerId: widget.call.callerId,
+        receiverId: widget.call.receiverId,
+        callStatus: callStatus,
+        caller: false);
   }
 
   Future<bool> _handleCameraAndMic(Permission permission) async {

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:provider/provider.dart';
+import 'package:skype_clone/provider/call_logs_provider.dart';
 import 'package:skype_clone/provider/image_upload_provider.dart';
 import 'package:skype_clone/provider/user_provider.dart';
 import 'package:skype_clone/resources/firebaseRepository.dart';
@@ -59,15 +60,9 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  getToken() async {
-    String token = await FirebaseMessaging.instance.getToken();
-    print(token);
-  }
-
   @override
   void initState() {
     super.initState();
-    getToken();
 
     var initialzationSettingsAndroid =
         AndroidInitializationSettings('@mipmap/ic_launcher');
@@ -102,7 +97,8 @@ class _MyAppState extends State<MyApp> {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => ImageUploadProvider()),
-        ChangeNotifierProvider(create: (_) => UserProvider())
+        ChangeNotifierProvider(create: (_) => UserProvider()),
+        ChangeNotifierProvider(create: (_) => CallLogsProvider())
       ],
       child: MaterialApp(
           debugShowCheckedModeBanner: false,

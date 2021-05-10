@@ -5,8 +5,9 @@ import 'package:skype_clone/utils/universal_variables.dart';
 class QuietBox extends StatelessWidget {
   final String heading;
   final String subtitle;
+  final bool searchToggle;
 
-  const QuietBox({this.heading, this.subtitle});
+  const QuietBox({this.heading, this.subtitle, this.searchToggle});
 
   @override
   Widget build(BuildContext context) {
@@ -39,16 +40,18 @@ class QuietBox extends StatelessWidget {
                 ),
               ),
               SizedBox(height: 25),
-              FlatButton(
-                color: UniversalVariables.lightBlueColor,
-                child: Text("START SEARCHING"),
-                onPressed: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => SearchScreen(),
-                  ),
-                ),
-              ),
+              searchToggle
+                  ? (FlatButton(
+                      color: UniversalVariables.lightBlueColor,
+                      child: Text("START SEARCHING"),
+                      onPressed: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => SearchScreen(),
+                        ),
+                      ),
+                    ))
+                  : (Container())
             ],
           ),
         ),

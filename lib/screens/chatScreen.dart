@@ -20,6 +20,7 @@ import 'package:skype_clone/utils/utilities.dart';
 import 'package:skype_clone/widgets/appbar.dart';
 import 'package:skype_clone/widgets/customTile.dart';
 import 'package:skype_clone/screens/callscreens/pickup/pickup_layout.dart';
+import 'package:cloud_functions/cloud_functions.dart';
 
 class ChatScreen extends StatefulWidget {
   final NormalUser reciever;
@@ -33,6 +34,8 @@ class ChatScreen extends StatefulWidget {
 class _ChatScreenState extends State<ChatScreen> {
   TextEditingController textFieldController = TextEditingController();
   bool isWriting = false;
+
+  FirebaseFunctions functions = FirebaseFunctions.instance;
 
   NormalUser sender;
   String _currentUserId;
@@ -444,7 +447,7 @@ class _ChatScreenState extends State<ChatScreen> {
   }
 
   Future<void> onVoiceJoin() async {
-    await handleCameraAndMic(Permission.microphone);
+    // await handleCameraAndMic(Permission.microphone);
     CallUtils.voiceDial(from: sender, to: widget.reciever, context: context);
   }
 

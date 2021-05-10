@@ -12,5 +12,7 @@ abstract class LogInterface {
 
   deleteLogs(int logId);
 
+  deleteAllLogs();
+
   close();
 }
