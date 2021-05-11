@@ -28,6 +28,7 @@ class QuietBox extends StatelessWidget {
                 heading,
                 textAlign: TextAlign.center,
                 style: TextStyle(
+                  color: Colors.white,
                   fontWeight: FontWeight.bold,
                   fontSize: 30,
                 ),
@@ -37,6 +38,7 @@ class QuietBox extends StatelessWidget {
                 subtitle,
                 textAlign: TextAlign.center,
                 style: TextStyle(
+                  color: Colors.white,
                   letterSpacing: 1.2,
                   fontWeight: FontWeight.normal,
                   fontSize: 18,
@@ -46,7 +48,10 @@ class QuietBox extends StatelessWidget {
               searchToggle
                   ? (FlatButton(
                       color: UniversalVariables.darkPurple,
-                      child: Text("START SEARCHING"),
+                      child: Text(
+                        "START SEARCHING",
+                        style: TextStyle(color: Colors.white),
+                      ),
                       onPressed: () => Navigator.push(
                         context,
                         MaterialPageRoute(
