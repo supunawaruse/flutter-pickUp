@@ -25,8 +25,8 @@ class LastMessageContainer extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    message.message.length > 25
-                        ? message.message.substring(0, 25) + '..'
+                    message.message.length > 20
+                        ? message.message.substring(0, 15) + '..'
                         : message.message,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,

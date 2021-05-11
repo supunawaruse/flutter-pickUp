@@ -71,6 +71,7 @@ class _PickupScreenState extends State<PickupScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color(0xff36454f),
       body: Container(
         alignment: Alignment.center,
         padding: EdgeInsets.symmetric(vertical: 100),
@@ -79,9 +80,7 @@ class _PickupScreenState extends State<PickupScreen> {
           children: <Widget>[
             Text(
               "Incoming...",
-              style: TextStyle(
-                fontSize: 30,
-              ),
+              style: TextStyle(fontSize: 30, color: Colors.white),
             ),
             SizedBox(height: 10),
             CachedImage(widget.call.callerPic, isRound: true, radius: 180),
@@ -89,9 +88,9 @@ class _PickupScreenState extends State<PickupScreen> {
             Text(
               widget.call.callerName,
               style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 20,
-              ),
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20,
+                  color: Colors.white),
             ),
             SizedBox(height: 75),
             Row(

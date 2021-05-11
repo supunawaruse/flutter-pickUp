@@ -192,16 +192,17 @@ class _VoiceCallScreenState extends State<VoiceCallScreen> {
     userProvider = Provider.of<UserProvider>(context, listen: false);
 
     return Scaffold(
+      backgroundColor: Color(0xff36454f),
       body: SafeArea(
         child: Container(
           height: MediaQuery.of(context).size.height,
           width: MediaQuery.of(context).size.width,
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: Color(0xff36454f),
           ),
           padding: EdgeInsets.symmetric(horizontal: 50, vertical: 80),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
             mainAxisSize: MainAxisSize.max,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
@@ -211,52 +212,43 @@ class _VoiceCallScreenState extends State<VoiceCallScreen> {
               Text(
                 'VOICE CALL',
                 style: TextStyle(
-                    color: UniversalVariables.greyColor,
-                    fontWeight: FontWeight.w300,
-                    fontSize: 15),
+                    color: Colors.grey,
+                    fontWeight: FontWeight.w600,
+                    fontSize: 18),
               ),
               SizedBox(
-                height: 20.0,
+                height: 10.0,
               ),
               Text(
                 widget.call.callerId == userProvider.getUser.uid
                     ? widget.call.receiverName
                     : widget.call.callerName,
                 style: TextStyle(
-                    color: UniversalVariables.darkPurple,
+                    color: Colors.white,
                     fontWeight: FontWeight.w900,
-                    fontSize: 20),
+                    fontSize: 22),
               ),
               SizedBox(
-                height: 20.0,
+                height: 10.0,
               ),
-              Text(
-                '10.23',
-                style: TextStyle(
-                    color: Colors.deepPurpleAccent,
-                    fontWeight: FontWeight.w300,
-                    fontSize: 15),
-              ),
-              SizedBox(
-                height: 20.0,
-              ),
-              ClipRRect(
-                borderRadius: BorderRadius.circular(200.0),
-                child: Image.network(
-                  widget.call.callerId == userProvider.getUser.uid
-                      ? widget.call.receiverPic
-                      : widget.call.callerPic,
-                  height: 200.0,
-                  width: 200.0,
+              Container(
+                width: 150.0,
+                height: 150.0,
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                      fit: BoxFit.cover,
+                      image: NetworkImage(
+                        widget.call.callerId == userProvider.getUser.uid
+                            ? widget.call.receiverPic
+                            : widget.call.callerPic,
+                      )),
+                  borderRadius: BorderRadius.all(Radius.circular(75.0)),
                 ),
               ),
               SizedBox(
                 height: 10.0,
               ),
               _toolbar(),
-              SizedBox(
-                height: 120.0,
-              ),
             ],
           ),
         ),
