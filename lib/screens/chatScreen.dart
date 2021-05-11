@@ -183,11 +183,23 @@ class _ChatScreenState extends State<ChatScreen> {
           bottomLeft: messageRadius,
         ),
       ),
-      child: Padding(padding: EdgeInsets.all(10), child: getMessage(message)),
+      child: Padding(
+          padding: EdgeInsets.only(right: 15, left: 25, top: 10, bottom: 10),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              getMessage(message),
+              SizedBox(height: 5),
+              Text(
+                message.timestamp.toDate().toString().substring(11, 16),
+                style: TextStyle(color: Colors.grey),
+              )
+            ],
+          )),
     );
   }
 
-  getMessage(Message message) {
+  Widget getMessage(Message message) {
     return message.type != 'image'
         ? Text(
             message.message,
@@ -213,7 +225,19 @@ class _ChatScreenState extends State<ChatScreen> {
           bottomLeft: messageRadius,
         ),
       ),
-      child: Padding(padding: EdgeInsets.all(10), child: getMessage(message)),
+      child: Padding(
+          padding: EdgeInsets.only(right: 25, left: 15, top: 10, bottom: 10),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              getMessage(message),
+              SizedBox(height: 5),
+              Text(
+                message.timestamp.toDate().toString().substring(11, 16),
+                style: TextStyle(color: Colors.grey),
+              )
+            ],
+          )),
     );
   }
 
@@ -337,7 +361,7 @@ class _ChatScreenState extends State<ChatScreen> {
                 color: Color(0xff36454f),
                 shape: BoxShape.circle,
               ),
-              child: Icon(Icons.add),
+              child: Icon(Icons.add, color: Colors.white),
             ),
           ),
           SizedBox(

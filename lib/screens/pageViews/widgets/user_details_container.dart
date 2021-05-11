@@ -13,7 +13,34 @@ class UserDetailsContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return Container(
+      child: Column(
+        children: <Widget>[
+          Container(
+            padding: EdgeInsets.only(bottom: 10),
+            decoration: BoxDecoration(
+                color: Color(0xff36454f),
+                borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(20),
+                    bottomRight: Radius.circular(20))),
+            child: CustomAppBar(
+              centerTitle: true,
+              title: Text("User Details"),
+            ),
+          ),
+          UserDetailsBody(),
+        ],
+      ),
+    );
+  }
+}
+
+class UserDetailsBody extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
     final UserProvider userProvider = Provider.of<UserProvider>(context);
+    final NormalUser user = userProvider.getUser;
+    final FirebaseMethods firebaseMethods = FirebaseMethods();
 
     signOut() async {
       final bool isLoggedOut =
@@ -35,62 +62,53 @@ class UserDetailsContainer extends StatelessWidget {
     }
 
     return Container(
+      padding: EdgeInsets.symmetric(vertical: 40, horizontal: 20),
       child: Column(
-        children: <Widget>[
-          CustomAppBar(
-            centerTitle: true,
-            title: Text("User Details"),
-            actions: <Widget>[
-              FlatButton(
-                onPressed: () => signOut(),
-                child: Text(
-                  "Sign Out",
-                  style: TextStyle(color: Colors.white, fontSize: 12),
-                ),
-              )
-            ],
-          ),
-          UserDetailsBody(),
-        ],
-      ),
-    );
-  }
-}
-
-class UserDetailsBody extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    final UserProvider userProvider = Provider.of<UserProvider>(context);
-    final NormalUser user = userProvider.getUser;
-
-    return Container(
-      padding: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
-      child: Row(
         children: [
-          CachedImage(
-            user.profilePhoto,
-            isRound: true,
-            radius: 50,
-          ),
-          SizedBox(width: 15),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Text(
-                user.name,
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 18,
-                  color: Colors.black,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                width: 150.0,
+                height: 150.0,
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                      fit: BoxFit.cover,
+                      image: NetworkImage(user.profilePhoto)),
+                  borderRadius: BorderRadius.all(Radius.circular(75.0)),
                 ),
-              ),
-              SizedBox(height: 10),
-              Text(
-                user.email,
-                style: TextStyle(fontSize: 14, color: Colors.grey),
               ),
             ],
           ),
+          SizedBox(
+            height: 20,
+          ),
+          Text(
+            user.name,
+            style: TextStyle(fontSize: 22, color: Colors.black),
+          ),
+          SizedBox(
+            height: 15,
+          ),
+          Text(
+            user.email,
+            style: TextStyle(fontSize: 18, color: Colors.grey),
+          ),
+          SizedBox(
+            height: 20,
+          ),
+          GestureDetector(
+            onTap: () => signOut(),
+            child: Container(
+              padding: EdgeInsets.symmetric(vertical: 10, horizontal: 40),
+              child: Text('Logout',
+                  style: TextStyle(
+                      color: Colors.white, fontWeight: FontWeight.bold)),
+              decoration: BoxDecoration(
+                  color: Color(0xff36454f),
+                  borderRadius: BorderRadius.circular(20)),
+            ),
+          )
         ],
       ),
     );
