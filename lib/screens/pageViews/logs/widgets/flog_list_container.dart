@@ -101,16 +101,14 @@ class _FLogListContainerState extends State<FLogListContainer> {
             title: Text(
               hasDialled ? user.username : userProvider.getUser.username,
               style: TextStyle(
-                fontWeight: FontWeight.w600,
-                fontSize: 17,
-              ),
+                  fontWeight: FontWeight.w600,
+                  fontSize: 17,
+                  color: Colors.black87),
             ),
             icon: getIcon(widget.fLog.callStatus),
             subtitle: Text(
               widget.fLog.addedOn.toDate().toString(),
-              style: TextStyle(
-                fontSize: 13,
-              ),
+              style: TextStyle(fontSize: 13, color: Colors.grey),
             ),
           );
         }

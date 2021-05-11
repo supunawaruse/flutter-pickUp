@@ -21,7 +21,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       // padding: EdgeInsets.all(10.0),
       // decoration: BoxDecoration(color: UniversalVariables.darkPurple),
       child: AppBar(
-        backgroundColor: UniversalVariables.darkPurple,
+        backgroundColor: Color(0xff36454f),
         elevation: 0,
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.only(

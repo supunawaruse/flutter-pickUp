@@ -92,7 +92,7 @@ class _ChatScreenState extends State<ChatScreen> {
 
     return PickupLayout(
       scaffold: Scaffold(
-        backgroundColor: UniversalVariables.blackColor,
+        backgroundColor: Colors.white,
         appBar: customAppBar(context),
         body: Column(
           children: [
@@ -206,7 +206,7 @@ class _ChatScreenState extends State<ChatScreen> {
       constraints:
           BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.65),
       decoration: BoxDecoration(
-        color: UniversalVariables.receiverColor,
+        color: Color(0xff36454f),
         borderRadius: BorderRadius.only(
           bottomRight: messageRadius,
           topRight: messageRadius,
@@ -334,7 +334,7 @@ class _ChatScreenState extends State<ChatScreen> {
             child: Container(
               padding: EdgeInsets.all(5),
               decoration: BoxDecoration(
-                gradient: UniversalVariables.fabGradient,
+                color: Color(0xff36454f),
                 shape: BoxShape.circle,
               ),
               child: Icon(Icons.add),
@@ -346,36 +346,34 @@ class _ChatScreenState extends State<ChatScreen> {
           Expanded(
             child: Stack(children: [
               TextField(
-                onTap: () => hideEmojiContainer(),
-                focusNode: textNode,
-                controller: textFieldController,
-                style: TextStyle(
-                  color: Colors.white,
-                ),
-                onChanged: (val) {
-                  (val.length > 0 && val.trim() != "")
-                      ? setWritingTo(true)
-                      : setWritingTo(false);
-                },
-                decoration: InputDecoration(
-                  hintText: "Type a message",
-                  hintStyle: TextStyle(
-                    color: UniversalVariables.greyColor,
+                  onTap: () => hideEmojiContainer(),
+                  focusNode: textNode,
+                  controller: textFieldController,
+                  style: TextStyle(
+                    color: Colors.black,
                   ),
-                  border: OutlineInputBorder(
-                      borderRadius: const BorderRadius.all(
-                        const Radius.circular(50.0),
+                  onChanged: (val) {
+                    (val.length > 0 && val.trim() != "")
+                        ? setWritingTo(true)
+                        : setWritingTo(false);
+                  },
+                  decoration: InputDecoration(
+                      hintText: "Type a message",
+                      hintStyle: TextStyle(
+                        color: UniversalVariables.greyColor,
                       ),
-                      borderSide: BorderSide.none),
-                  contentPadding:
-                      EdgeInsets.symmetric(horizontal: 40, vertical: 5),
-                  filled: true,
-                  fillColor: UniversalVariables.separatorColor,
-                ),
-              ),
+                      border: OutlineInputBorder(
+                          borderRadius: const BorderRadius.all(
+                            const Radius.circular(50.0),
+                          ),
+                          borderSide: BorderSide.none),
+                      contentPadding:
+                          EdgeInsets.symmetric(horizontal: 40, vertical: 5),
+                      filled: true,
+                      fillColor: Colors.white)),
               IconButton(
-                splashColor: Colors.transparent,
-                highlightColor: Colors.transparent,
+                splashColor: Colors.black,
+                highlightColor: Color(0xff36454f),
                 onPressed: () {
                   if (!showEmojiPicker) {
                     hideKeyboard();
@@ -387,27 +385,24 @@ class _ChatScreenState extends State<ChatScreen> {
                 },
                 icon: Icon(
                   Icons.face,
+                  color: Color(0xff36454f),
                 ),
               )
             ]),
           ),
           isWriting
               ? Container()
-              : Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 10),
-                  child: Icon(Icons.record_voice_over),
-                ),
-          isWriting
-              ? Container()
               : GestureDetector(
                   onTap: () => pickImage(source: ImageSource.camera),
-                  child: Icon(Icons.camera_alt)),
+                  child: Icon(
+                    Icons.camera_alt,
+                    color: Color(0xff36454f),
+                  )),
           isWriting
               ? Container(
                   margin: EdgeInsets.only(left: 10),
                   decoration: BoxDecoration(
-                      gradient: UniversalVariables.fabGradient,
-                      shape: BoxShape.circle),
+                      color: Color(0xff36454f), shape: BoxShape.circle),
                   child: IconButton(
                     icon: Icon(
                       Icons.send,

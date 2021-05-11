@@ -35,6 +35,7 @@ class _SearchScreenState extends State<SearchScreen> {
 
   searchAppBar(BuildContext context) {
     return AppBar(
+      backgroundColor: Color(0xff36454f),
       leading: IconButton(
         icon: Icon(
           Icons.arrow_back,
@@ -54,7 +55,7 @@ class _SearchScreenState extends State<SearchScreen> {
                 query = val;
               });
             },
-            cursorColor: UniversalVariables.blackColor,
+            cursorColor: Colors.white,
             autofocus: true,
             style: TextStyle(
                 fontWeight: FontWeight.bold, color: Colors.white, fontSize: 25),
@@ -115,7 +116,7 @@ class _SearchScreenState extends State<SearchScreen> {
               title: Text(
                 searchUser.username,
                 style: TextStyle(
-                  color: Colors.white,
+                  color: Colors.black,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -130,7 +131,7 @@ class _SearchScreenState extends State<SearchScreen> {
   Widget build(BuildContext context) {
     return PickupLayout(
         scaffold: Scaffold(
-            backgroundColor: UniversalVariables.blackColor,
+            backgroundColor: Colors.white,
             appBar: searchAppBar(context),
             body: Container(
               padding: EdgeInsets.symmetric(horizontal: 20),

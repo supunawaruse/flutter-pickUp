@@ -121,6 +121,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
 
     return PickupLayout(
       scaffold: Scaffold(
+        backgroundColor: Colors.white,
         body: PageView(
           children: <Widget>[
             ChatListScreen(),

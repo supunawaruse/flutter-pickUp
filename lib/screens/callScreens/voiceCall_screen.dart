@@ -197,7 +197,7 @@ class _VoiceCallScreenState extends State<VoiceCallScreen> {
           height: MediaQuery.of(context).size.height,
           width: MediaQuery.of(context).size.width,
           decoration: BoxDecoration(
-            color: UniversalVariables.blackColor,
+            color: Colors.white,
           ),
           padding: EdgeInsets.symmetric(horizontal: 50, vertical: 80),
           child: Column(
@@ -223,7 +223,7 @@ class _VoiceCallScreenState extends State<VoiceCallScreen> {
                     ? widget.call.receiverName
                     : widget.call.callerName,
                 style: TextStyle(
-                    color: Colors.white,
+                    color: UniversalVariables.darkPurple,
                     fontWeight: FontWeight.w900,
                     fontSize: 20),
               ),
