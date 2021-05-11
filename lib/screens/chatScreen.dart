@@ -13,6 +13,7 @@ import 'package:skype_clone/models/user.dart';
 import 'package:skype_clone/provider/image_upload_provider.dart';
 import 'package:skype_clone/resources/firebaseRepository.dart';
 import 'package:skype_clone/screens/cachedImage.dart';
+import 'package:skype_clone/screens/pageViews/widgets/single_photo.dart';
 import 'package:skype_clone/utils/call_utilities.dart';
 import 'package:skype_clone/utils/permissions.dart';
 import 'package:skype_clone/utils/universal_variables.dart';
@@ -206,7 +207,18 @@ class _ChatScreenState extends State<ChatScreen> {
             style: TextStyle(color: Colors.white, fontSize: 16.0),
           )
         : message.photoUrl != null
-            ? CachedImage(message.photoUrl, height: 250, width: 250, radius: 10)
+            ? GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => SinglePhoto(
+                              photoUrl: message.photoUrl,
+                              message: message,
+                              name: widget.reciever.name)));
+                },
+                child: CachedImage(message.photoUrl,
+                    height: 250, width: 250, radius: 10))
             : Text('Image url is null');
   }
 
@@ -431,6 +443,7 @@ class _ChatScreenState extends State<ChatScreen> {
                     icon: Icon(
                       Icons.send,
                       size: 15,
+                      color: Colors.white,
                     ),
                     onPressed: () => sendMessage(),
                   ))
