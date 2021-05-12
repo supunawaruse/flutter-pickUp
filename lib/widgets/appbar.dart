@@ -12,23 +12,21 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     @required this.title,
     this.actions,
     this.leading,
-    @required this.centerTitle,
+    this.centerTitle,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(10.0),
-      decoration: BoxDecoration(
-          color: UniversalVariables.blackColor,
-          border: Border(
-              bottom: BorderSide(
-                  color: UniversalVariables.separatorColor,
-                  width: 1.4,
-                  style: BorderStyle.solid))),
+      // padding: EdgeInsets.all(10.0),
+      // decoration: BoxDecoration(color: UniversalVariables.darkPurple),
       child: AppBar(
-        backgroundColor: UniversalVariables.blackColor,
+        backgroundColor: Color(0xff36454f),
         elevation: 0,
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+                bottomLeft: Radius.circular(20),
+                bottomRight: Radius.circular(20))),
         leading: leading,
         actions: actions,
         centerTitle: centerTitle,

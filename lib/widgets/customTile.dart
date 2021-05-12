@@ -40,9 +40,7 @@ class CustomTile extends StatelessWidget {
                 padding: EdgeInsets.symmetric(vertical: mini ? 3 : 20),
                 decoration: BoxDecoration(
                     border: Border(
-                        bottom: BorderSide(
-                            width: 1,
-                            color: UniversalVariables.separatorColor))),
+                        bottom: BorderSide(width: 1, color: Colors.grey[200]))),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[

@@ -15,7 +15,10 @@ class QuietBox extends StatelessWidget {
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 25),
         child: Container(
-          color: UniversalVariables.separatorColor,
+          decoration: BoxDecoration(
+              color: Color(0xff36454f),
+              borderRadius: BorderRadius.vertical(
+                  top: Radius.circular(15), bottom: Radius.circular(10))),
           padding: EdgeInsets.symmetric(vertical: 35, horizontal: 25),
           child: Column(
             mainAxisSize: MainAxisSize.min,
@@ -25,6 +28,7 @@ class QuietBox extends StatelessWidget {
                 heading,
                 textAlign: TextAlign.center,
                 style: TextStyle(
+                  color: Colors.white,
                   fontWeight: FontWeight.bold,
                   fontSize: 30,
                 ),
@@ -34,6 +38,7 @@ class QuietBox extends StatelessWidget {
                 subtitle,
                 textAlign: TextAlign.center,
                 style: TextStyle(
+                  color: Colors.white,
                   letterSpacing: 1.2,
                   fontWeight: FontWeight.normal,
                   fontSize: 18,
@@ -42,8 +47,11 @@ class QuietBox extends StatelessWidget {
               SizedBox(height: 25),
               searchToggle
                   ? (FlatButton(
-                      color: UniversalVariables.lightBlueColor,
-                      child: Text("START SEARCHING"),
+                      color: UniversalVariables.darkPurple,
+                      child: Text(
+                        "START SEARCHING",
+                        style: TextStyle(color: Colors.white),
+                      ),
                       onPressed: () => Navigator.push(
                         context,
                         MaterialPageRoute(

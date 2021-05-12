@@ -4,15 +4,10 @@ import 'package:provider/provider.dart';
 import 'package:skype_clone/models/flog.dart';
 import 'package:skype_clone/provider/user_provider.dart';
 import 'package:skype_clone/resources/call_log_methods.dart';
-import 'package:skype_clone/resources/local_db/repository/log_repository.dart';
 import 'package:skype_clone/screens/callscreens/pickup/pickup_layout.dart';
-import 'package:skype_clone/screens/pageViews/logs/widgets/floating_column.dart';
 import 'package:skype_clone/screens/pageViews/logs/widgets/flog_list_container.dart';
 import 'package:skype_clone/screens/pageViews/widgets/Quiet_box.dart';
-import 'package:skype_clone/utils/universal_variables.dart';
 import 'package:skype_clone/widgets/skype_appbar.dart';
-
-import 'widgets/log_list_container.dart';
 
 class LogScreen extends StatelessWidget {
   @override
@@ -20,7 +15,7 @@ class LogScreen extends StatelessWidget {
     final UserProvider userProvider = Provider.of<UserProvider>(context);
     return PickupLayout(
       scaffold: Scaffold(
-        backgroundColor: UniversalVariables.blackColor,
+        backgroundColor: Colors.white,
         appBar: SkypeAppBar(
           title: "Calls",
           actions: <Widget>[

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:skype_clone/utils/universal_variables.dart';
 import 'package:skype_clone/widgets/appbar.dart';
 
 class SkypeAppBar extends StatelessWidget implements PreferredSizeWidget {
@@ -15,10 +16,7 @@ class SkypeAppBar extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     return CustomAppBar(
       leading: IconButton(
-        icon: Icon(
-          Icons.notifications,
-          color: Colors.white,
-        ),
+        icon: Icon(Icons.notifications, color: Colors.white),
         onPressed: () {},
       ),
       title: (title is String)

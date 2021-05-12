@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:provider/provider.dart';
 import 'package:skype_clone/models/call.dart';
 import 'package:skype_clone/models/log.dart';
+import 'package:skype_clone/provider/user_provider.dart';
 import 'package:skype_clone/resources/call_log_methods.dart';
 import 'package:skype_clone/resources/call_methods.dart';
 import 'package:skype_clone/resources/local_db/repository/log_repository.dart';
@@ -69,7 +71,10 @@ class _VoicePickupScreenState extends State<VoicePickupScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final UserProvider userProvider = Provider.of<UserProvider>(context);
+
     return Scaffold(
+      backgroundColor: Color(0xff36454f),
       body: Container(
         alignment: Alignment.center,
         padding: EdgeInsets.symmetric(vertical: 100),
@@ -78,18 +83,29 @@ class _VoicePickupScreenState extends State<VoicePickupScreen> {
           children: <Widget>[
             Text(
               "Voice Call Incoming...",
-              style: TextStyle(
-                fontSize: 30,
-              ),
+              style: TextStyle(fontSize: 18, color: Colors.grey),
             ),
             SizedBox(height: 10),
-            // CachedImage(call.callerPic, isRound: true, radius: 180),
-            // SizedBox(height: 15),
             Text(
               widget.call.callerName,
               style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 22,
+                  color: Colors.white),
+            ),
+            SizedBox(height: 5),
+            Container(
+              width: 150.0,
+              height: 150.0,
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                    fit: BoxFit.cover,
+                    image: NetworkImage(
+                      widget.call.callerId == userProvider.getUser.uid
+                          ? widget.call.receiverPic
+                          : widget.call.callerPic,
+                    )),
+                borderRadius: BorderRadius.all(Radius.circular(75.0)),
               ),
             ),
             SizedBox(height: 10),

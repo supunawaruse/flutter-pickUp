@@ -323,7 +323,7 @@ class _CallScreenState extends State<CallScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: Color(0xff36454f),
       body: Center(
         child: Stack(
           children: <Widget>[
