@@ -10,58 +10,25 @@ const defaultApp = adminInitApp()
 const db = admin.firestore()
 
 const onCallNotification = functions.firestore
-  .document('call/{callerId}')
+  .document('call/{receiverId}')
   .onCreate(async (snap, context) => {
     const value = snap.data()
-    const id = value.caller_id
+    const id = value.receiverId
     const owner = await admin.firestore().collection('users').doc(id).get()
 
-    const dialerId = context.params.callerId
+    const receiverId = context.params.receiverId
 
-    const appId = '64b69ba11ab340679b6bcd0a3cb3823e'
-    const appCertificate = '3381071b1dde451daa52ee197de81478'
-    const role = RtcRole.PUBLISHER
-
-    const channelName = value.channel_id
-    const expirationTimeInSeconds = 3600
-    const currentTimestamp = Math.floor(Date.now() / 1000)
-    const privilegeExpired = currentTimestamp + expirationTimeInSeconds
-    const uid = 0
-
-    const token = RtcTokenBuilder.buildTokenWithAccount(
-      appId,
-      appCertificate,
-      channelName,
-      uid,
-      role,
-      privilegeExpired
-    )
-
-    if (token !== null) {
-      await admin
-        .firestore()
-        .collection('call')
-        .doc(value.caller_id)
-        .update({ token: token })
-
-      await admin
-        .firestore()
-        .collection('call')
-        .doc(value.receiver_id)
-        .update({ token: token })
-    }
-
-    if (dialerId === id) {
+    if (receiverId === id) {
       await admin.messaging().sendToDevice(
         owner.data().tokens[0], // ['token_1', 'token_2', ...]
         {
           data: {
-            title: 'supuna',
-            body: 'hey',
+            title: 'Someone is calling you',
+            body: 'Go to pickup app can answer the call',
           },
           notification: {
-            title: 'supunaqweqwe',
-            body: 'hey',
+            title: 'Someone is calling you',
+            body: 'Go to pickup app can answer the call',
           },
         },
         {
