@@ -42,15 +42,11 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        backgroundColor: Colors.white,
         body: Center(
             child: Container(
                 height: (MediaQuery.of(context).size.height),
                 width: (MediaQuery.of(context).size.width),
-                decoration: BoxDecoration(
-                    image: DecorationImage(
-                        image:
-                            ExactAssetImage('assets/img/loginBackground.png'),
-                        fit: BoxFit.cover)),
                 child: Center(
                   child: Padding(
                     padding: const EdgeInsets.only(top: 100),
@@ -60,7 +56,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           'PickUp',
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                              color: Color(0xFF9F2B5C),
+                              color: Color(0xff36454f),
                               fontSize: 48,
                               fontFamily: 'Pacifico'),
                         ),

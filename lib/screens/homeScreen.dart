@@ -121,7 +121,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
 
     return PickupLayout(
       scaffold: Scaffold(
-        backgroundColor: UniversalVariables.blackColor,
+        backgroundColor: Colors.white,
         body: PageView(
           children: <Widget>[
             ChatListScreen(),
@@ -133,57 +133,62 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
           physics: NeverScrollableScrollPhysics(),
         ),
         bottomNavigationBar: Container(
-          child: Padding(
-            padding: EdgeInsets.symmetric(vertical: 10),
-            child: CupertinoTabBar(
-              backgroundColor: UniversalVariables.blackColor,
-              items: <BottomNavigationBarItem>[
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.chat,
-                      color: (_page == 0)
-                          ? UniversalVariables.lightBlueColor
-                          : UniversalVariables.greyColor),
-                  title: Text(
-                    "Chats",
-                    style: TextStyle(
-                        fontSize: _labelFontSize,
-                        color: (_page == 0)
-                            ? UniversalVariables.lightBlueColor
-                            : Colors.grey),
-                  ),
+          decoration: new BoxDecoration(
+            boxShadow: [
+              BoxShadow(
+                color: Colors.white,
+                blurRadius: 5.0, // soften the shadow
+                spreadRadius: 5.0, //extend the shadow
+                offset: Offset(
+                  5.0, // Move to right 10  horizontally
+                  5.0, // Move to bottom 10 Vertically
                 ),
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.call,
-                      color: (_page == 1)
-                          ? UniversalVariables.lightBlueColor
-                          : UniversalVariables.greyColor),
-                  title: Text(
-                    "Calls",
-                    style: TextStyle(
-                        fontSize: _labelFontSize,
-                        color: (_page == 1)
-                            ? UniversalVariables.lightBlueColor
-                            : Colors.grey),
-                  ),
+              )
+            ],
+          ),
+          padding: EdgeInsets.symmetric(vertical: 10),
+          child: CupertinoTabBar(
+            backgroundColor: Colors.white,
+            items: <BottomNavigationBarItem>[
+              BottomNavigationBarItem(
+                icon: Icon(Icons.chat,
+                    color: (_page == 0)
+                        ? Color(0xff36454f)
+                        : UniversalVariables.greyColor),
+                title: Text(
+                  "Chats",
+                  style: TextStyle(
+                      fontSize: _labelFontSize,
+                      color: (_page == 0) ? Color(0xff36454f) : Colors.grey),
                 ),
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.person,
-                      color: (_page == 2)
-                          ? UniversalVariables.lightBlueColor
-                          : UniversalVariables.greyColor),
-                  title: Text(
-                    "Profile",
-                    style: TextStyle(
-                        fontSize: _labelFontSize,
-                        color: (_page == 2)
-                            ? UniversalVariables.lightBlueColor
-                            : Colors.grey),
-                  ),
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.call,
+                    color: (_page == 1)
+                        ? Color(0xff36454f)
+                        : UniversalVariables.greyColor),
+                title: Text(
+                  "Calls",
+                  style: TextStyle(
+                      fontSize: _labelFontSize,
+                      color: (_page == 1) ? Color(0xff36454f) : Colors.grey),
                 ),
-              ],
-              onTap: navigationTapped,
-              currentIndex: _page,
-            ),
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.person,
+                    color: (_page == 2)
+                        ? Color(0xff36454f)
+                        : UniversalVariables.greyColor),
+                title: Text(
+                  "Profile",
+                  style: TextStyle(
+                      fontSize: _labelFontSize,
+                      color: (_page == 2) ? Color(0xff36454f) : Colors.grey),
+                ),
+              ),
+            ],
+            onTap: navigationTapped,
+            currentIndex: _page,
           ),
         ),
       ),

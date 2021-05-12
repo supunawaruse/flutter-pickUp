@@ -103,11 +103,10 @@ class _MyAppState extends State<MyApp> {
       child: MaterialApp(
           debugShowCheckedModeBanner: false,
           initialRoute: '/',
-          theme: ThemeData(brightness: Brightness.dark),
           routes: {
             '/search_screen': (context) => SearchScreen(),
           },
-          title: "Skype",
+          title: "PickUp",
           home: FutureBuilder(
               future: _repository.getCurrentUser(),
               builder: (context, AsyncSnapshot<User> snapshot) {

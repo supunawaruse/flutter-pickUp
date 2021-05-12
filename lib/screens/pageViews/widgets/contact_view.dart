@@ -79,10 +79,10 @@ class ViewLayout extends StatelessWidget {
           )),
       title: Text(
         (contact != null ? contact.name : null) != null
-            ? contact.name.substring(0, 10)
+            ? contact.name.toString().split(" ")[0]
             : "..",
         style:
-            TextStyle(color: Colors.white, fontFamily: "Arial", fontSize: 19),
+            TextStyle(color: Colors.black, fontFamily: "Arial", fontSize: 19),
       ),
       subtitle: LastMessageContainer(
         stream: firebaseMethods.fetchLastMessageBetween(

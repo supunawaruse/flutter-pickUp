@@ -13,6 +13,7 @@ import 'package:skype_clone/models/user.dart';
 import 'package:skype_clone/provider/image_upload_provider.dart';
 import 'package:skype_clone/resources/firebaseRepository.dart';
 import 'package:skype_clone/screens/cachedImage.dart';
+import 'package:skype_clone/screens/pageViews/widgets/single_photo.dart';
 import 'package:skype_clone/utils/call_utilities.dart';
 import 'package:skype_clone/utils/permissions.dart';
 import 'package:skype_clone/utils/universal_variables.dart';
@@ -92,7 +93,7 @@ class _ChatScreenState extends State<ChatScreen> {
 
     return PickupLayout(
       scaffold: Scaffold(
-        backgroundColor: UniversalVariables.blackColor,
+        backgroundColor: Colors.white,
         appBar: customAppBar(context),
         body: Column(
           children: [
@@ -183,18 +184,41 @@ class _ChatScreenState extends State<ChatScreen> {
           bottomLeft: messageRadius,
         ),
       ),
-      child: Padding(padding: EdgeInsets.all(10), child: getMessage(message)),
+      child: Padding(
+          padding: EdgeInsets.only(right: 15, left: 25, top: 10, bottom: 10),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              getMessage(message),
+              SizedBox(height: 5),
+              Text(
+                message.timestamp.toDate().toString().substring(11, 16),
+                style: TextStyle(color: Colors.grey),
+              )
+            ],
+          )),
     );
   }
 
-  getMessage(Message message) {
+  Widget getMessage(Message message) {
     return message.type != 'image'
         ? Text(
             message.message,
             style: TextStyle(color: Colors.white, fontSize: 16.0),
           )
         : message.photoUrl != null
-            ? CachedImage(message.photoUrl, height: 250, width: 250, radius: 10)
+            ? GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => SinglePhoto(
+                              photoUrl: message.photoUrl,
+                              message: message,
+                              name: widget.reciever.name)));
+                },
+                child: CachedImage(message.photoUrl,
+                    height: 250, width: 250, radius: 10))
             : Text('Image url is null');
   }
 
@@ -206,14 +230,26 @@ class _ChatScreenState extends State<ChatScreen> {
       constraints:
           BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.65),
       decoration: BoxDecoration(
-        color: UniversalVariables.receiverColor,
+        color: Color(0xff36454f),
         borderRadius: BorderRadius.only(
           bottomRight: messageRadius,
           topRight: messageRadius,
           bottomLeft: messageRadius,
         ),
       ),
-      child: Padding(padding: EdgeInsets.all(10), child: getMessage(message)),
+      child: Padding(
+          padding: EdgeInsets.only(right: 25, left: 15, top: 10, bottom: 10),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              getMessage(message),
+              SizedBox(height: 5),
+              Text(
+                message.timestamp.toDate().toString().substring(11, 16),
+                style: TextStyle(color: Colors.grey),
+              )
+            ],
+          )),
     );
   }
 
@@ -334,10 +370,10 @@ class _ChatScreenState extends State<ChatScreen> {
             child: Container(
               padding: EdgeInsets.all(5),
               decoration: BoxDecoration(
-                gradient: UniversalVariables.fabGradient,
+                color: Color(0xff36454f),
                 shape: BoxShape.circle,
               ),
-              child: Icon(Icons.add),
+              child: Icon(Icons.add, color: Colors.white),
             ),
           ),
           SizedBox(
@@ -346,36 +382,34 @@ class _ChatScreenState extends State<ChatScreen> {
           Expanded(
             child: Stack(children: [
               TextField(
-                onTap: () => hideEmojiContainer(),
-                focusNode: textNode,
-                controller: textFieldController,
-                style: TextStyle(
-                  color: Colors.white,
-                ),
-                onChanged: (val) {
-                  (val.length > 0 && val.trim() != "")
-                      ? setWritingTo(true)
-                      : setWritingTo(false);
-                },
-                decoration: InputDecoration(
-                  hintText: "Type a message",
-                  hintStyle: TextStyle(
-                    color: UniversalVariables.greyColor,
+                  onTap: () => hideEmojiContainer(),
+                  focusNode: textNode,
+                  controller: textFieldController,
+                  style: TextStyle(
+                    color: Colors.black,
                   ),
-                  border: OutlineInputBorder(
-                      borderRadius: const BorderRadius.all(
-                        const Radius.circular(50.0),
+                  onChanged: (val) {
+                    (val.length > 0 && val.trim() != "")
+                        ? setWritingTo(true)
+                        : setWritingTo(false);
+                  },
+                  decoration: InputDecoration(
+                      hintText: "Type a message",
+                      hintStyle: TextStyle(
+                        color: UniversalVariables.greyColor,
                       ),
-                      borderSide: BorderSide.none),
-                  contentPadding:
-                      EdgeInsets.symmetric(horizontal: 40, vertical: 5),
-                  filled: true,
-                  fillColor: UniversalVariables.separatorColor,
-                ),
-              ),
+                      border: OutlineInputBorder(
+                          borderRadius: const BorderRadius.all(
+                            const Radius.circular(50.0),
+                          ),
+                          borderSide: BorderSide.none),
+                      contentPadding:
+                          EdgeInsets.symmetric(horizontal: 40, vertical: 5),
+                      filled: true,
+                      fillColor: Colors.white)),
               IconButton(
-                splashColor: Colors.transparent,
-                highlightColor: Colors.transparent,
+                splashColor: Colors.black,
+                highlightColor: Color(0xff36454f),
                 onPressed: () {
                   if (!showEmojiPicker) {
                     hideKeyboard();
@@ -387,31 +421,29 @@ class _ChatScreenState extends State<ChatScreen> {
                 },
                 icon: Icon(
                   Icons.face,
+                  color: Color(0xff36454f),
                 ),
               )
             ]),
           ),
           isWriting
               ? Container()
-              : Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 10),
-                  child: Icon(Icons.record_voice_over),
-                ),
-          isWriting
-              ? Container()
               : GestureDetector(
                   onTap: () => pickImage(source: ImageSource.camera),
-                  child: Icon(Icons.camera_alt)),
+                  child: Icon(
+                    Icons.camera_alt,
+                    color: Color(0xff36454f),
+                  )),
           isWriting
               ? Container(
                   margin: EdgeInsets.only(left: 10),
                   decoration: BoxDecoration(
-                      gradient: UniversalVariables.fabGradient,
-                      shape: BoxShape.circle),
+                      color: Color(0xff36454f), shape: BoxShape.circle),
                   child: IconButton(
                     icon: Icon(
                       Icons.send,
                       size: 15,
+                      color: Colors.white,
                     ),
                     onPressed: () => sendMessage(),
                   ))

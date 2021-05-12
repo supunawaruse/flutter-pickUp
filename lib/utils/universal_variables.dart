@@ -9,6 +9,11 @@ class UniversalVariables {
   static final Color lightBlueColor = Color(0xff0077d7);
   static final Color separatorColor = Color(0xff272c35);
 
+  static final Color darkPurple = Color(0xff9f2b5c);
+  static final Color lightPurple = Color(0xffb12e5a);
+  static final Color darkPink = Color(0xffe34158);
+  static final Color lightPink = Color(0xffff505f);
+
   static final Color gradientColorStart = Color(0xff00b6f3);
   static final Color gradientColorEnd = Color(0xff0184dc);
 
