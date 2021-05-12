@@ -153,43 +153,37 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
               BottomNavigationBarItem(
                 icon: Icon(Icons.chat,
                     color: (_page == 0)
-                        ? UniversalVariables.darkPurple
+                        ? Color(0xff36454f)
                         : UniversalVariables.greyColor),
                 title: Text(
                   "Chats",
                   style: TextStyle(
                       fontSize: _labelFontSize,
-                      color: (_page == 0)
-                          ? UniversalVariables.darkPurple
-                          : Colors.grey),
+                      color: (_page == 0) ? Color(0xff36454f) : Colors.grey),
                 ),
               ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.call,
                     color: (_page == 1)
-                        ? UniversalVariables.darkPurple
+                        ? Color(0xff36454f)
                         : UniversalVariables.greyColor),
                 title: Text(
                   "Calls",
                   style: TextStyle(
                       fontSize: _labelFontSize,
-                      color: (_page == 1)
-                          ? UniversalVariables.darkPurple
-                          : Colors.grey),
+                      color: (_page == 1) ? Color(0xff36454f) : Colors.grey),
                 ),
               ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.person,
                     color: (_page == 2)
-                        ? UniversalVariables.darkPurple
+                        ? Color(0xff36454f)
                         : UniversalVariables.greyColor),
                 title: Text(
                   "Profile",
                   style: TextStyle(
                       fontSize: _labelFontSize,
-                      color: (_page == 2)
-                          ? UniversalVariables.darkPurple
-                          : Colors.grey),
+                      color: (_page == 2) ? Color(0xff36454f) : Colors.grey),
                 ),
               ),
             ],
